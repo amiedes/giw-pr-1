@@ -4,6 +4,8 @@ Created on Thu Oct 06 19:50:08 2016
 
 @author: dany
 """
+
+from collections import deque
 Max_Size=91
 Min_Size=65
 Alpha_Size=26
@@ -48,9 +50,16 @@ def main():
         new_word=""
         new_word=encrypt(phrase[word],positions)
         new_phrase.append(new_word)    
-    #phrase=ch_words(phrase,movement)
-    print movement
+    new_phrase = deque(new_phrase)
+    
     print new_phrase
+    
+    new_phrase.rotate(movement)
+    #phrase = new_phrase.rotate(movement)
+    phrase = new_phrase
+    
+    print ' '.join(phrase)    
+    
 
 main()    
     
