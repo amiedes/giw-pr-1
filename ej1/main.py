@@ -24,6 +24,8 @@ codificado. Se deben hacer las comprobaciones necesarias sobre la entrada, es
 decir que es una cadena y 2 números.
 '''
 
+from collections import deque
+
 Max_Size=91
 Min_Size=65
 Alpha_Size=26
@@ -39,7 +41,6 @@ def encrypt(word,positions):
             else:
                 letter=chr((newPos+Min_Size)%Max_Size)
         new_word+=letter
-    print new_word
     return new_word
 
 def main():
@@ -64,15 +65,18 @@ def main():
             print "---------------------------------------------------------"
 
     new_phrase = []
+
     # Desplazar las letras
     for word in range(len(phrase)):
         new_word = ""
         new_word = encrypt(phrase[word],positions)
         new_phrase.append(new_word)
 
-    # Desplazar las palabras
-    #phrase=ch_words(phrase,movement)
-    print movement
-    print new_phrase
+    # Rotar las palabras dentro de la frase
+    new_phrase = deque(new_phrase)
+    new_phrase.rotate(movement)
+
+    # Imprimir el resultado
+    print ' '.join(new_phrase)
 
 main()
