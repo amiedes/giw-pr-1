@@ -69,9 +69,9 @@ def main():
     new_phrase = []
 
     # Rotar las letras de cada una de las palabras de la frase
-    for word in range(len(phrase)):
+    for word in phrase:
         new_word = ""
-        new_word = shift_letters_right(phrase[word], letter_shift)
+        new_word = shift_letters_right(word, letter_shift)
         new_phrase.append(new_word)
 
     # Rotar las palabras dentro de la frase
