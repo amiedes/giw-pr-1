@@ -32,14 +32,15 @@ def clean_word(word):
             clean_word += spanish_tolower(letter)
     return clean_word
 
-def write_dictionary_to_file(dictionary, output_file_name = "output.txt"):
+def write_dictionary_to_file(dictionary, output_file_name = "output.sample.txt"):
     fh = open(output_file_name, 'w')
     for word in dictionary:
         fh.write(word + ' ' + str(dictionary[word]) + '\n')
     fh.close()
 
 def process_file(filename):
-    if (filename == ''): filename = 'input.txt'
+    # set default filename in case none was not provided
+    if (filename == ''): filename = 'input.sample.txt'
     # open file and get file handler
     fh = open(filename)
     # create empty dictionary for storing words
