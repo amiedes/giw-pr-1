@@ -53,9 +53,9 @@ def leer_mensaje():
     msg['servidor'].ehlo()
     msg['servidor'].login(usr, pwd)
     # leer remitente, destinatario y mensaje
-    msg['remitente']    = raw_input("From: ")
     msg['destinatario'] = raw_input("To: ")
     msg['content']      = raw_input("Message (end with ^D): ")
+    msg['remitente'] = usr
     # devolver un objeto con toda la información necearia para enviar el mensaje
     return msg
 
