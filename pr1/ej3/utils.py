@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+'''
+@authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+'''
+
 import string
 
 def spanish_tolower(word):

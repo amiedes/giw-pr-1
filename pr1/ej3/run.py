@@ -1,7 +1,14 @@
 # -*- coding: utf-8 -*-
-# Implementar un programa en Python tal que tomando como entrada el nombre de un
-# archivo de texto, analice el contenido y escriba otro archivo de salida que
-# contenga el número de veces que aparece cada palabra.
+
+'''
+@authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+'''
+
+'''
+Implementar un programa en Python tal que tomando como entrada el nombre de un
+archivo de texto, analice el contenido y escriba otro archivo de salida que
+contenga el número de veces que aparece cada palabra.
+'''
 
 import utils
 
