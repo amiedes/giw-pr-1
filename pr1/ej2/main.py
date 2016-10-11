@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+'''
+@authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+'''
+
 '''
 Considerar la función SMTP del módulo smtplib que permite la conexión con un
 servidor. Se pide implementar una aplicación que simule un correo electrónico
