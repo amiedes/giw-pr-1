@@ -20,12 +20,20 @@ preguntará si quiere intentar enviar otro mensaje o salir.
 La estructura del programa debe ser:
 
     from smtpib import SMTP
-    # Capturar servidor
-    servidor = SMTP(“servidor smtp”)
-    # Capturar remitente
+
+    # Capturar servidor y puerto de entrada. Por ejemplo en Gmail es: # smtp.gmail.com y puerto 587
+    servidor = SMTP(servidor smtp, puerto)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+
+    # Solicitar cuenta de correo remitente y password para autenticarse ante el #servidor
+    server.login(cuenta de correo, password)
+
     # Capturar destinatario
     # Capturar mensaje
     servidor.sendmail(remitente, destinatario, mensaje)
+    server.quit()
 '''
 
 from smtplib import SMTP
