@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
+
 """
 Created on Thu Oct 06 19:50:08 2016
-
-@author: dany
+@authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 
 '''
@@ -26,38 +26,40 @@ decir que es una cadena y 2 números.
 
 from collections import deque
 
-Max_Size=91
-Min_Size=65
-Alpha_Size=26
+MAX_SIZE = 91
+MIN_SIZE = 65
+ALPHABET_SIZE = 26
 
 
-def encrypt(word,positions):
-    new_word=""
+def shift_letters_right(word, letter_shift):
+    new_word = ""
     for letter in word:
         if (letter.isalpha()):
-            newPos=positions + ord(letter)
-            if (newPos < Max_Size):
-                letter=chr(newPos)
+            newPos = letter_shift + ord(letter)
+            if (newPos < MAX_SIZE):
+                letter = chr(newPos)
             else:
-                letter=chr((newPos+Min_Size)%Max_Size)
-        new_word+=letter
+                letter = chr((newPos + MIN_SIZE) % MAX_SIZE)
+        new_word += letter
     return new_word
 
 def main():
     print "Bienvenido a Cifrado César !!"
     print "Intoduce las palabras que quieres Cifrar:"
-    phrase=raw_input()
-    phrase=phrase.upper()
-    phrase=phrase.split()
-    phrase_size=len(phrase)
-    valid=False
+
+    phrase = raw_input()
+    phrase = phrase.upper()
+    phrase = phrase.split()
+    phrase_size = len(phrase)
+
+    valid = False
     while (not valid):
         try:
-            positions=int(raw_input("Desplazamiento de Letras ?:"))
-            positions=positions%Alpha_Size
-            movement=int(raw_input("Movimiento por Palabra ?:"))
-            movement=movement%phrase_size
-            valid=True
+            letter_shift = int(raw_input("Desplazamiento de Letras ?:"))
+            letter_shift = letter_shift % ALPHABET_SIZE
+            word_shift = int(raw_input("Movimiento por Palabra ?:"))
+            word_shift = word_shift % phrase_size
+            valid = True
         except:
             print "--------------------ERROR--------------------------------"
             print "El Desplazamiento y Movimiento deben ser un Número Entero"
@@ -66,15 +68,15 @@ def main():
 
     new_phrase = []
 
-    # Desplazar las letras
-    for word in range(len(phrase)):
+    # Rotar las letras de cada una de las palabras de la frase
+    for word in phrase:
         new_word = ""
-        new_word = encrypt(phrase[word],positions)
+        new_word = shift_letters_right(word, letter_shift)
         new_phrase.append(new_word)
 
     # Rotar las palabras dentro de la frase
     new_phrase = deque(new_phrase)
-    new_phrase.rotate(movement)
+    new_phrase.rotate(word_shift)
 
     # Imprimir el resultado
     print ' '.join(new_phrase)

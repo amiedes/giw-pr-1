@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+
+'''
+@authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+'''
+
 '''
 Considerar la función SMTP del módulo smtplib que permite la conexión con un
 servidor. Se pide implementar una aplicación que simule un correo electrónico
@@ -15,18 +20,26 @@ preguntará si quiere intentar enviar otro mensaje o salir.
 La estructura del programa debe ser:
 
     from smtpib import SMTP
-    # Capturar servidor
-    servidor = SMTP(“servidor smtp”)
-    # Capturar remitente
+
+    # Capturar servidor y puerto de entrada. Por ejemplo en Gmail es: # smtp.gmail.com y puerto 587
+    servidor = SMTP(servidor smtp, puerto)
+    server.ehlo()
+    server.starttls()
+    server.ehlo()
+
+    # Solicitar cuenta de correo remitente y password para autenticarse ante el #servidor
+    server.login(cuenta de correo, password)
+
     # Capturar destinatario
     # Capturar mensaje
     servidor.sendmail(remitente, destinatario, mensaje)
+    server.quit()
 '''
 
 from smtplib import SMTP
 
-#Capturar servidor
-def leer_mensaje():
+# Read message content and parameters from standard input
+def read_message():
     msg = dict()
     # leer y crear el servidor de correo electrónico
     server_url = 'smtp.gmail.com:587'   # server_url = raw_input("URL del servidor: ")
@@ -40,34 +53,36 @@ def leer_mensaje():
     msg['servidor'].ehlo()
     msg['servidor'].login(usr, pwd)
     # leer remitente, destinatario y mensaje
-    msg['remitente']    = raw_input("From: ")
-    msg['destinatario'] = raw_input("To: ")
-    msg['content']      = raw_input("Message (end with ^D): ")
+    msg['remitente'] = usr
+    msg['destinatario'] = raw_input("Recipient: ")
+    msg['content'] = raw_input("Message: ")
     # devolver un objeto con toda la información necearia para enviar el mensaje
     return msg
 
-def pedir_mensaje():
+# Prompts user for a message until he/she gives a valid one
+def prompt_for_message():
     message_ok = False
     while (not message_ok):
         try:
-            msg = leer_mensaje()
+            msg = read_message()
             message_ok = True
         except:
             print "ERROR: Ha ocurrido un problema leyendo el mensaje"
     return msg
 
-def enviar_mensaje(msg):
+# Sends message and closes connection to server
+def send_message(msg):
     msg['servidor'].sendmail(msg['remitente'], msg['destinatario'], msg['content'])
     msg['servidor'].close()
 
 def main():
     exit = False
     while (not exit):
-        msg = pedir_mensaje()
+        msg = prompt_for_message()
         opcion = raw_input("Quieres enviar el mensaje? (Si/No): ")
         if (opcion == "Si"):
             try:
-                enviar_mensaje(msg)
+                send_message(msg)
                 print "SUCCESS: Mensaje enviado correctamente"
             except:
                 print "ERROR: No se ha podido enviar el mensaje"
