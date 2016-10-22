@@ -48,7 +48,10 @@ def aguaAgrupada():
     return      
     
 """
-2. Usando el archivo residuos_peligrosos_eprtr_2008_040412 crea un nuevo archivo cvs denominado FrecuenciaResiduos.cvs el cual debe contener la frecuencia con la que aparecen las diferentes empresas. Tendrá la estructura:
+2. Usando el archivo residuos_peligrosos_eprtr_2008_040412 crea un nuevo 
+archivo cvs denominado FrecuenciaResiduos.cvs el cual debe contener la
+frecuencia con la que aparecen las diferentes empresas.
+ Tendrá la estructura:
 Jugador,Frecuencia
 """
  
@@ -88,10 +91,10 @@ def frecuenciaResiduos():
 # Main Function to complete Exercise 1 
 def main():
    while True:
-       print " ----------------------"+"\n"+"| Gestor de Tareas CVS |"+"\n"+" ----------------------"
+       print " ----------------------"+"\n"+"| Gestor de Tareas CSV |"+"\n"+" ----------------------"
        print "Elige una Tarea:"
-       print "1.- Generar Fichero --> 'AguaAgrupada.cvs' "
-       print "2.- Generar Fichero --> 'Frecuencia Residuos.cvs'"
+       print "1.- Generar Fichero --> 'AguaAgrupada.csv' "
+       print "2.- Generar Fichero --> 'Frecuencia Residuos.csv'"
        print "3.- Titulo del Ej 1.3"
        opt=raw_input("INTRODUCE EL NUMERO DE TAREA  (para salir presiona 'q+Enter'):")
        if(opt=="1"):
