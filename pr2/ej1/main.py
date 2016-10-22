@@ -67,14 +67,20 @@ def frecuenciaResiduos():
     empresa = ""
     claveValor = {}
     
+    output=open("FrecuenciaResiduos.csv","w")
+    w_pointer=csv.writer(output,lineterminator="\n")
     for k in range(len(empresasList)):
         if empresasList[k] != empresa:
             empresa = empresasList[k]
             cuantasEnLista = empresasList.count(empresa)
             claveValor[empresa] = cuantasEnLista
-    
+    i = 0
     for empresas, frecuencia in claveValor.items(): 
-        print empresas + ', ' + str(frecuencia)
+        if i == 0:
+            w_pointer.writerow(["Empresa","frecuencia"])
+        else:
+            w_pointer.writerow ([empresas, str(frecuencia)])
+        i = i + 1
     return
 
   
@@ -93,6 +99,7 @@ def main():
             break
        elif(opt=="2"):
             frecuenciaResiduos()
+            print "\n"+"FICHERO CREADO CORRECTAMENTE (en path: '../FrecuenciaResiduos.csv')"
             break
        elif(opt=="3"):
             print "llamar func. ej 1.3 here"
