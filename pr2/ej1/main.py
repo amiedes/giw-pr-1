@@ -81,6 +81,7 @@ def frecuenciaResiduos():
         else:
             w_pointer.writerow ([empresas, str(frecuencia)])
         i = i + 1
+    output.close()
     return
 
   
@@ -90,7 +91,7 @@ def main():
        print " ----------------------"+"\n"+"| Gestor de Tareas CVS |"+"\n"+" ----------------------"
        print "Elige una Tarea:"
        print "1.- Generar Fichero --> 'AguaAgrupada.cvs' "
-       print "2.- Titulo de Ej 1.2"
+       print "2.- Generar Fichero --> 'Frecuencia Residuos.cvs'"
        print "3.- Titulo del Ej 1.3"
        opt=raw_input("INTRODUCE EL NUMERO DE TAREA  (para salir presiona 'q+Enter'):")
        if(opt=="1"):
