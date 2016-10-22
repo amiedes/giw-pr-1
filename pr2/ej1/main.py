@@ -36,8 +36,38 @@ def aguaAgrupada():
     for n in range(len(final_content)):
         #here i'm going to create a new file (not yet)
         print final_content[n]
-    return        
-             
+    return     
+    
+"""
+2. Usando el archivo residuos_peligrosos_eprtr_2008_040412 crea un nuevo archivo cvs denominado FrecuenciaResiduos.cvs el cual debe contener la frecuencia con la que aparecen las diferentes empresas. Tendrá la estructura:
+Jugador,Frecuencia
+"""
+ 
+def frecuenciaResiduos():
+    os.chdir('..')
+    os.chdir('emisiones_fuentes_contaminantes_csv_2008')
+    csvFileObj = open("residuos_peligrosos_eprtr_2008_040412.csv")
+    lector = csv.reader(csvFileObj, delimiter=";")
+    datos = list(lector)  
+    empresasList = []
+        
+    for i in range(len(datos)):
+        empresasList.append(datos[i][2])
+    csvFileObj.close()
+    os.chdir("..")
+    empresa = ""
+    claveValor = {}
+    
+    for k in range(len(empresasList)):
+        if empresasList[k] != empresa:
+            empresa = empresasList[k]
+            cuantasEnLista = empresasList.count(empresa)
+            claveValor[empresa] = cuantasEnLista
+    
+    for empresas, frecuencia in claveValor.items(): 
+        print empresas + ', ' + str(frecuencia)
+    return
+                        
     
 # Main Function to complete Exercise 1 
 def main():
@@ -54,7 +84,8 @@ def main():
             aguaAgrupada()
             break
        elif(opt=="2"):
-            print "llamar func. ej 1.2 here"
+            frecuenciaResiduos()
+            break
        elif(opt=="3"):
             print "llamar func. ej 1.3 here"
        elif(opt=="q"):
