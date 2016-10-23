@@ -4,5 +4,8 @@
 # Python files
 *.pyc
 test.txt
+
+# CSV output files
 pr2/AguaAgrupada.csv
 pr2/FrecuenciaResiduos.csv
+pr2/Contaminantes.csv
