@@ -1,20 +1,28 @@
 # -*- coding: utf-8 -*-
+
 """
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+
+Todos los Outputs se generan el el Dir que contiene 
+las carpetas ej1 y ej2
 """
+
 from __future__ import division
 import json
 import os
 import re
 import operator
 
+#This function is necesary because we have spanish 
+#characters in "ubicacion"
 def encode(text):
     return text.encode('utf-8')
     
-
+#this function build a dictionary like {ubicacion:frecuencia}
+# where frecuencia= NumSemaforos(en ubicacion)/NumTotal 
 def findDictionary():
     os.chdir('..')
-    json_file = open('semaforos.json')
+    json_file = open('semaforos.txt')
     
     data = json.load(json_file)
     semaphores_array = data['features']
@@ -41,7 +49,9 @@ def findDictionary():
         semaphores_dictionary[ubicacion] = frecuency
     
     return semaphores_dictionary
+
     
+#This function Solve Exercise 2.1    
 def findFrecuency():
     semaphores_dictionary = dict()
     semaphores_dictionary = findDictionary()
@@ -49,7 +59,9 @@ def findFrecuency():
         json.dump(semaphores_dictionary, json_file)
     json_file.close()
     print "\n"+"FICHERO CREADO CORRECTAMENTE (en path: '../SemaforosFrecuencia.json')"
-    
+
+
+#This function Solve Exercise 2.2        
 def find10Frecuencies():
     semaphores_dictionary = dict()
     semaphores_dictionary = findDictionary()
@@ -62,9 +74,13 @@ def find10Frecuencies():
             f.write('%s:%s\n' % (orderedDict[n][0].encode('utf8') , orderedDict[n][1]))                        
     print "\n"+"FICHERO CREADO CORRECTAMENTE (en path: '../FrecuenciaOrdenada.txt')"    
         
+
+#-------------------------------------------------------
+# Main Function to complete Exercise 2 
 def main():
 
     while True:
+       print " ----------------------"+"\n"+"| Gestor de Tareas JSON |"+"\n"+" ----------------------"
        print "Elige una Tarea:"
        print "1.- Encontrar la frecuencia de cada semaforo "
        print "2.- Encontrar los 10 semáforos que aparecen con mayor frecuencia "

@@ -1,8 +1,9 @@
 #-*- coding: utf-8 -*-
 """
-Created on Wed Oct 19 12:29:16 2016
-
 @author: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+
+Todos los Outputs se generan el el Dir que contiene 
+las carpetas ej1 y ej2
 """
 
 import csv
@@ -22,13 +23,8 @@ def to_float(word):
 
 """---------------------------------------------------
 Ejercicio 1.1
-Usando el archivo agua_eprtr_2008_030412 crea un nuevo
-archivo csv denominado AguaAgrupada.cvs el cual debe 
-contener agrupadas las empresas con el tipo de contaminación
-que producen. Tendrá la estructura:
-Contaminación, empresa
-CADMIO Y SUS COMPUESTOS, BEFESA ZINC AMOREBIETA
-CADMIO Y SUS COMPUESTOS, UROLA KOSTAKO UDAL ELKARTEA
+Usando agua_eprtr_2008_030412 crea AguaAgrupada.cvs
+con estructura:Contaminación, empresa
 """
 def aguaAgrupada():
     os.chdir('..')
@@ -66,11 +62,9 @@ def aguaAgrupada():
     
 """------------------------------------------------------
 Ejercicio 1.2
-Usando el archivo residuos_peligrosos_eprtr_2008_040412 crea un nuevo 
-archivo cvs denominado FrecuenciaResiduos.cvs el cual debe contener la
-frecuencia con la que aparecen las diferentes empresas.
-Tendrá la estructura:
-Jugador,Frecuencia
+Usando residuos_peligrosos_eprtr_2008_040412 crea 
+FrecuenciaResiduos.cvs con estructura:
+Empresa,Frecuencia
 """
 def frecuenciaResiduos():
     os.chdir('..')
@@ -107,9 +101,8 @@ def frecuenciaResiduos():
     
 """-------------------------------------------------------
 Ejercicio. 1.3
-Usando el archivo aire_eprtr_2008_030412 crea un
-nuevo archivo cvs denominado Contaminantes.cvs el cual
-tenga la información de las 10 empresas que más contaminan.
+Usando aire_eprtr_2008_030412 crea Contaminantes.cvs 
+con las 10 empresas que más contaminan.
 Para ello se debe sumar la cantidad Kg/año de los residuos
 emitidos por la empresa.
 """    
