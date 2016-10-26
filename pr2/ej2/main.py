@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-
+"""
+@authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+"""
 from __future__ import division
 import json
 import os

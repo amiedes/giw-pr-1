@@ -2,7 +2,7 @@
 """
 Created on Wed Oct 19 12:29:16 2016
 
-@author: daniel reyes, alberto, anna
+@author: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 
 import csv
