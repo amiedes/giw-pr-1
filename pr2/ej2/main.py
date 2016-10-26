@@ -8,7 +8,9 @@ import os
 import re
 import operator
 
-#from semaphore import Semaphore
+def encode(text):
+    return text.encode('utf-8')
+    
 
 def findDictionary():
     os.chdir('..')
@@ -55,20 +57,14 @@ def find10Frecuencies():
         semaphores_dictionary[ubicacion] = frecuencia
     orderedDict = sorted(semaphores_dictionary.items(), key=operator.itemgetter(1), reverse=True)
     
-    #print orderedDict
-    tamano = len(orderedDict)
-    first10 = tuple()
-    for n in range(10):
-        first10[orderedDict[tamano-(n+1)][0]] = orderedDict[tamano-(n+1)][1]
-    
-    #print first10
-    with open('FrecuenciaOrdenada.json', 'w') as json_file:
-        json.dump(orderedDict, json_file)
-    json_file.close()
-    print "\n"+"FICHERO CREADO CORRECTAMENTE (en path: '../FrecuenciaOrdenada.json')"    
+    with open('FrecuenciaOrdenada.txt', 'w') as f:
+        for n in range(10):              
+            f.write('%s:%s\n' % (orderedDict[n][0].encode('utf8') , orderedDict[n][1]))                        
+    print "\n"+"FICHERO CREADO CORRECTAMENTE (en path: '../FrecuenciaOrdenada.txt')"    
         
 def main():
-     while True:
+
+    while True:
        print "Elige una Tarea:"
        print "1.- Encontrar la frecuencia de cada semaforo "
        print "2.- Encontrar los 10 semáforos que aparecen con mayor frecuencia "
