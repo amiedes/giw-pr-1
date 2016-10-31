@@ -4,8 +4,6 @@
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 
-import json
-
 class Monument:
     def __init__(self, name, website, x_pos, y_pos):
         self.name = name
