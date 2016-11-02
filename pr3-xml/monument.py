@@ -100,6 +100,6 @@ class Monument:
         ret += "Latitud: " + self.latitude + "  "
         ret += "Longitud: " + self.longitude + "\n"
         ret += "Web asociada: " + self.website + "\n"
-        ret += "Descripcion:" + self.description
+        ret += "Descripcion:\n\n" + self.description
 
         return ret.encode('utf-8')

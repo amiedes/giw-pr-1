@@ -21,6 +21,7 @@ class HtmlTagCleaner:
     def clean(self, dirty_text):
         dirty_text.replace('\n', '')
 
+        # delete text inside unwanted html tags
         dirty_text = re.sub('\<h3\>Descripci.n\<\/h3\>', '', dirty_text)
         dirty_text = re.sub('\<h3\>Enlaces\<\/h3\>', '', dirty_text)
         dirty_text = re.sub('\<strong\>.*\<\/strong\>', '', dirty_text)
@@ -32,21 +33,24 @@ class HtmlTagCleaner:
         reading_tag = False
 
         for c in dirty_text:
-            # si estamos dentro de un tag
+            # if we are inside a tag
             if reading_tag:
                 current_tag += c
-                # si detectamos el final del tag, realizar sustitución
+                # if tag ending detected, make substitution
                 if c == '>':
                     if current_tag in self.substitutions:
                         clean_text += self.substitutions[current_tag]
                     reading_tag = False
                     current_tag = ""
-            # si no estamos dentro de un tag
+            # if we are outside a tag
             else:
                 if c == '<':
                     reading_tag = True
                     current_tag += c
                 else:
                     clean_text += c
+
+        # delete all line-breaks accumulated at the beginning
+        clean_text = re.sub('^(\n)*', '', clean_text)
 
         return clean_text

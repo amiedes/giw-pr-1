@@ -56,7 +56,7 @@ def main():
         monument = monuments[int(monument_id)-1]
         monument.set_description()
         monument.set_geolocation()
-        print monument.to_printable()
+        print "\n" + monument.to_printable()
 
         # continue asking for monuments?
         option = None
