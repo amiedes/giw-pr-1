@@ -50,33 +50,36 @@ class Monument:
         return self.geolocation
 
     def parse_description(self, description):
-        new_data=description.split("<p>")
-        to_print=""
+        description = description.replace("</p>", "")
+        new_data = description.split("<p>")
+        to_print = ""
         for i in range(len(new_data)):
-            if(i==0 or "<a" in new_data[i] or "<span" in new_data[i]):
+            if(i == 0 or "<a" in new_data[i] or "<span" in new_data[i]):
                 continue
             elif("<h3>" in new_data[i] or "div>" in new_data[i] or "<strong>" in new_data[i]):
-               new_data[i]=new_data[i].replace("<h3>","")
-               new_data[i]=new_data[i].replace("</h3>",":")
-               new_data[i]=new_data[i].replace("<div>","")
-               new_data[i]=new_data[i].replace("</div>","\n\n")
-               new_data[i]=new_data[i].replace("<strong>","")
-               new_data[i]=new_data[i].replace("</strong>","")
-               to_print=to_print+new_data[i]+"\n"
+               new_data[i] = new_data[i].replace("<h3>", "")
+               new_data[i] = new_data[i].replace("</h3>", ":")
+               new_data[i] = new_data[i].replace("<div>", "")
+               new_data[i] = new_data[i].replace("</div>", "\n\n")
+               new_data[i] = new_data[i].replace("<strong>", "")
+               new_data[i] = new_data[i].replace("</strong>", "")
+               to_print = to_print + new_data[i] + "\n"
             else:
-               to_print=to_print+new_data[i]+"\n"
+               to_print = to_print + new_data[i] + "\n"
         return to_print
 
     def set_description(self):
         if self.description is None:
+            # make API call
             web_content = urllib.urlopen(self.website)
-            data = web_content.read()
+            data = web_content.read().decode('latin-1')
+            # find the description inside all the response
             initial_pos = data.find("<h3>Descripc")
             final_pos = data.find("<h3>Enlaces</h3>")
             description = data[initial_pos:final_pos]
-            description = description.replace("</p>","")
-            description = description.decode('latin-1')
+            # delete HTML tags
             final_description = self.parse_description(description)
+            # set object description
             self.description = final_description
 
     def set_geolocation(self):
