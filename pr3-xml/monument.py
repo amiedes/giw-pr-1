@@ -6,6 +6,7 @@
 
 import urllib
 import xml.etree.ElementTree as ET
+from html_tag_cleaner import HtmlTagCleaner
 
 class Monument:
     next_id = 1
@@ -48,25 +49,6 @@ class Monument:
     @property
     def geolocation(self):
         return self.geolocation
-
-    def parse_description(self, description):
-        description = description.replace("</p>", "")
-        new_data = description.split("<p>")
-        to_print = ""
-        for i in range(len(new_data)):
-            if(i == 0 or "<a" in new_data[i] or "<span" in new_data[i]):
-                continue
-            elif("<h3>" in new_data[i] or "div>" in new_data[i] or "<strong>" in new_data[i]):
-               new_data[i] = new_data[i].replace("<h3>", "")
-               new_data[i] = new_data[i].replace("</h3>", ":")
-               new_data[i] = new_data[i].replace("<div>", "")
-               new_data[i] = new_data[i].replace("</div>", "\n\n")
-               new_data[i] = new_data[i].replace("<strong>", "")
-               new_data[i] = new_data[i].replace("</strong>", "")
-               to_print = to_print + new_data[i] + "\n"
-            else:
-               to_print = to_print + new_data[i] + "\n"
-        return to_print
 
     def set_description(self):
         if self.description is None:
