@@ -4,6 +4,9 @@
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 
+import urllib
+import xml.etree.ElementTree as ET
+
 class Monument:
     next_id = 1
 
@@ -46,17 +49,28 @@ class Monument:
     def geolocation(self):
         return self.geolocation
 
-    def set_description():
+    def set_description(self):
         if description is None:
             print "Making API call to get monument description..."
             # TODO: make call to Zaragoza's City Council's API
         else:
             print "Description is already set"
 
-    def set_geolocation():
-        if (latitude is None) or (longitude is None):
+    def set_geolocation(self):
+        if (self.latitude is None) or (self.longitude is None):
             print "Making API call to get monument geolocation..."
-            # TODO: make call to Google geolocation API
+            serviceurl = 'http://maps.googleapis.com/maps/api/geocode/xml?'
+            url = serviceurl + urllib.urlencode({
+                'address': self.name,
+                'components': 'country:ES|administrative_area:Zaragoza'
+            })
+            uh = urllib.urlopen(url)
+            data = uh.read()
+            print data
+            root = ET.fromstring(data)
+            location = root.find('result').find('geometry').find('location')
+            self.latitude = location.find('lat').text
+            self.longitude = location.find('lng').text
         else:
             print "Description is already set"
 

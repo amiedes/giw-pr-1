@@ -56,8 +56,8 @@ def main():
 
         # get monument info and print
         monument = monuments[int(monument_id)-1]
-        monument.set_description
-        monument.set_geolocation
+        monument.set_description()
+        monument.set_geolocation()
         print monument
 
         # continue asking for monuments?
