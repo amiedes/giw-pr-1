@@ -40,8 +40,6 @@ def valid_id(s):
         return False
 
 def main():
-    print "Booting up..."
-
     monuments = parse_xml()
 
     for monument in monuments:
@@ -52,7 +50,7 @@ def main():
         # ask for monument in the list
         monument_id = None
         while(not valid_id(monument_id)):
-            monument_id = raw_input("Elige un monumento (ID):")
+            monument_id = raw_input("\nElige un monumento (ID): ")
 
         # get monument info and print
         monument = monuments[int(monument_id)-1]
@@ -63,7 +61,7 @@ def main():
         # continue asking for monuments?
         option = None
         while (option != 's' and option != 'n'):
-            option = raw_input("¿Desea buscar otro monumento? (s/n)")
+            option = raw_input("\n¿Desea buscar otro monumento? (s/n): ")
             if option == 'n': exit = True
 
 main()

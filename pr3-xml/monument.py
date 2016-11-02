@@ -78,12 +78,9 @@ class Monument:
             description = description.decode('latin-1')
             final_description = self.parse_description(description)
             self.description = final_description
-        else:
-            print "Description is already set"
 
     def set_geolocation(self):
         if (self.latitude is None) or (self.longitude is None):
-            print "Making API call to get monument geolocation..."
             serviceurl = 'http://maps.googleapis.com/maps/api/geocode/xml?'
             url = serviceurl + urllib.urlencode({
                 'address': self.name.encode('utf-8'),
@@ -95,8 +92,6 @@ class Monument:
             location = root.find('result').find('geometry').find('location')
             self.latitude = location.find('lat').text
             self.longitude = location.find('lng').text
-        else:
-            print "Description is already set"
 
     def __str__(self):
         ret = ""
