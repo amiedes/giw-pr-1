@@ -49,13 +49,35 @@ class Monument:
     def geolocation(self):
         return self.geolocation
 
+    def parse_description(self, description):
+        new_data=description.split("<p>")
+        to_print=""
+        for i in range(len(new_data)):
+            if(i==0 or "<a" in new_data[i] or "<span" in new_data[i]):
+                continue
+            elif("<h3>" in new_data[i] or "div>" in new_data[i] or "<strong>" in new_data[i]):
+               new_data[i]=new_data[i].replace("<h3>","")
+               new_data[i]=new_data[i].replace("</h3>",":")
+               new_data[i]=new_data[i].replace("<div>","")
+               new_data[i]=new_data[i].replace("</div>","\n\n")
+               new_data[i]=new_data[i].replace("<strong>","")
+               new_data[i]=new_data[i].replace("</strong>","")
+               to_print=to_print+new_data[i]+"\n"
+            else:
+               to_print=to_print+new_data[i]+"\n"
+        return to_print
+
     def set_description(self):
         if self.description is None:
-            print "Making API call to get monument description..."
-            # TODO: make call to Zaragoza's City Council's API
-            #contenido = urllib.urlopen("http://www.zaragoza.es/ciudad/vistasciudad/detalle_Monumento?id=" + str(self.id)) 
-            #print contenido.encode('utf8')
-            
+            web_content = urllib.urlopen(self.website)
+            data = web_content.read()
+            initial_pos = data.find("<h3>Descripc")
+            final_pos = data.find("<h3>Enlaces</h3>")
+            description = data[initial_pos:final_pos]
+            description = description.replace("</p>","")
+            description = description.decode('latin-1')
+            final_description = self.parse_description(description)
+            self.description = final_description
         else:
             print "Description is already set"
 
@@ -69,7 +91,6 @@ class Monument:
             })
             uh = urllib.urlopen(url)
             data = uh.read()
-            print data
             root = ET.fromstring(data)
             location = root.find('result').find('geometry').find('location')
             self.latitude = location.find('lat').text
@@ -77,12 +98,11 @@ class Monument:
         else:
             print "Description is already set"
 
-
     def __str__(self):
         ret = ""
         ret += "Id: " + str(self.id) + "\n"
         ret += "Name: " + self.name + "\n"
-        #ret += "Description: " + str(self.description.decode('latin-1')) + "\n"
+        ret += "Description: " + self.description + "\n"
         ret += "Website: " + self.website + "\n"
         ret += "x-pos: " + self.x_pos + "\n"
         ret += "y-pos: " + self.y_pos + "\n"
