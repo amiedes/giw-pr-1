@@ -50,9 +50,12 @@ class Monument:
         return self.geolocation
 
     def set_description(self):
-        if description is None:
+        if self.description is None:
             print "Making API call to get monument description..."
             # TODO: make call to Zaragoza's City Council's API
+            #contenido = urllib.urlopen("http://www.zaragoza.es/ciudad/vistasciudad/detalle_Monumento?id=" + str(self.id)) 
+            #print contenido.encode('utf8')
+            
         else:
             print "Description is already set"
 
@@ -77,7 +80,7 @@ class Monument:
     @staticmethod
     def encode(attribute):
         if attribute:
-            return attribute.encode('utf-8')
+            return attribute.encode('utf8')
         else:
             return "None"
 
