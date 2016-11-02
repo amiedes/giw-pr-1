@@ -24,6 +24,7 @@ class HtmlTagCleaner:
         # delete text inside unwanted html tags
         dirty_text = re.sub('\<h3\>Descripci.n\<\/h3\>', '', dirty_text)
         dirty_text = re.sub('\<h3\>Enlaces\<\/h3\>', '', dirty_text)
+        dirty_text = re.sub('\<p\>\<strong\>(.|\n)*\<\/strong\>(.|\n)*\<\/p\>', '', dirty_text)
         dirty_text = re.sub('\<strong\>.*\<\/strong\>', '', dirty_text)
         dirty_text = re.sub('\<span\>.*\<\/span\>', '', dirty_text)
         dirty_text = re.sub('\<a\>.*\<\/a\>', '', dirty_text)
