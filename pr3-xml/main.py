@@ -26,10 +26,7 @@ def parse_xml():
             elif field_name == "posicion_y":
                 posicion_y = info.text
         monument = Monument(nombre, url, posicion_x, posicion_y)
-
-        print "-"*20
-        print monument
-        print "-"*20
+        monuments.append(monument)
 
     return monuments
 
@@ -46,7 +43,9 @@ def main():
     print "Booting up..."
 
     monuments = parse_xml()
-    print monuments
+
+    for monument in monuments:
+        print str(monument.id) + ".- " + monument.name
 
     exit = False
     while(not exit):
@@ -56,9 +55,9 @@ def main():
             monument_id = raw_input("Elige un monumento (ID):")
 
         # get monument info and print
-        monument = monuments[monument_id]
-        monument.set_description()
-        monument.set_geolocation()
+        monument = monuments[int(monument_id)-1]
+        monument.set_description
+        monument.set_geolocation
         print monument
 
         # continue asking for monuments?

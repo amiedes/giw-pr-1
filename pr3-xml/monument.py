@@ -5,7 +5,11 @@
 """
 
 class Monument:
+    next_id = 1
+
     def __init__(self, name, website, x_pos, y_pos):
+        self.id = Monument.next_id
+        Monument.next_id += 1
         self.name = name
         self.description = None
         self.website = website
@@ -13,6 +17,10 @@ class Monument:
         self.y_pos = y_pos
         self.latitude = None
         self.longitude = None
+
+    @property
+    def id(self):
+        return self.id
 
     @property
     def name(self):
@@ -61,6 +69,7 @@ class Monument:
 
     def __str__(self):
         ret = ""
+        ret += "Id: " + str(self.id) + "\n"
         ret += "Name: " + self.encode(self.name) + "\n"
         ret += "Description: " + self.encode(self.description) + "\n"
         ret += "Website: " + self.encode(self.website) + "\n"
