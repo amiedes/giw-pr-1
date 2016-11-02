@@ -4,12 +4,14 @@
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 
+import re
+
 class HtmlTagCleaner:
 
     substitutions = {
-        '<p>': '',     '</p>': '\n',
+        '<p>': '',     '</p>': '',
         '<a>': '',     '</a>': '',
-        '<h3>': '\n',  '</h3>': '\n--------------------\n',
+        '<h3>': '',  '</h3>': '\n',
         '<div>': '',   '</div>': '',
         '<strong>': '', '</strong>': '',
         '<span>': '',   '</span>': ''
@@ -18,6 +20,12 @@ class HtmlTagCleaner:
     @classmethod
     def clean(self, dirty_text):
         dirty_text.replace('\n', '')
+
+        dirty_text = re.sub('\<h3\>Descripci.n\<\/h3\>', '', dirty_text)
+        dirty_text = re.sub('\<h3\>Enlaces\<\/h3\>', '', dirty_text)
+        dirty_text = re.sub('\<strong\>.*\<\/strong\>', '', dirty_text)
+        dirty_text = re.sub('\<span\>.*\<\/span\>', '', dirty_text)
+        dirty_text = re.sub('\<a\>.*\<\/a\>', '', dirty_text)
 
         clean_text = ""
         current_tag = ""
@@ -40,4 +48,5 @@ class HtmlTagCleaner:
                     current_tag += c
                 else:
                     clean_text += c
+
         return clean_text

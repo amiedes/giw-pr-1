@@ -93,3 +93,13 @@ class Monument:
         ret += "longitude: " + self.longitude
 
         return ret.encode('utf8')
+
+    def to_printable(self):
+        ret = ""
+        ret += "Nombre monumento: " + self.name + "\n"
+        ret += "Latitud: " + self.latitude + "  "
+        ret += "Longitud: " + self.longitude + "\n"
+        ret += "Web asociada: " + self.website + "\n"
+        ret += "Descripcion:" + self.description
+
+        return ret.encode('utf-8')
