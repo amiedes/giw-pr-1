@@ -64,7 +64,7 @@ class Monument:
             print "Making API call to get monument geolocation..."
             serviceurl = 'http://maps.googleapis.com/maps/api/geocode/xml?'
             url = serviceurl + urllib.urlencode({
-                'address': self.name,
+                'address': self.name.encode('utf-8'),
                 'components': 'country:ES|administrative_area:Zaragoza'
             })
             uh = urllib.urlopen(url)
@@ -77,22 +77,16 @@ class Monument:
         else:
             print "Description is already set"
 
-    @staticmethod
-    def encode(attribute):
-        if attribute:
-            return attribute.encode('utf8')
-        else:
-            return "None"
 
     def __str__(self):
         ret = ""
         ret += "Id: " + str(self.id) + "\n"
-        ret += "Name: " + self.encode(self.name) + "\n"
-        ret += "Description: " + self.encode(self.description) + "\n"
-        ret += "Website: " + self.encode(self.website) + "\n"
-        ret += "x-pos: " + self.encode(self.x_pos) + "\n"
-        ret += "y-pos: " + self.encode(self.y_pos) + "\n"
-        ret += "latitude: " + self.encode(self.latitude) + "\n"
-        ret += "longitude: " + self.encode(self.longitude)
+        ret += "Name: " + self.name + "\n"
+        #ret += "Description: " + str(self.description.decode('latin-1')) + "\n"
+        ret += "Website: " + self.website + "\n"
+        ret += "x-pos: " + self.x_pos + "\n"
+        ret += "y-pos: " + self.y_pos + "\n"
+        ret += "latitude: " + self.latitude + "\n"
+        ret += "longitude: " + self.longitude
 
-        return ret
+        return ret.encode('utf8')
