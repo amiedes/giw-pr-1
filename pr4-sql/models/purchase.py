@@ -11,5 +11,4 @@ class Purchase:
         self.book_id = options['book_id']
 
     def save(self):
-        
         # TODO: save object in BD

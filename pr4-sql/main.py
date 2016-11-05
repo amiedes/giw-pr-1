@@ -4,8 +4,8 @@
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 
-import 'db/create'
-import 'db/queries'
+from db.create import db_setup
+from db.queries import db_run_all_queries
 
 def main():
     db_setup()

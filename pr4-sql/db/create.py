@@ -4,7 +4,7 @@
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 
-import 'seed'
+import seed
 
 def create_books_table():
 
