@@ -10,34 +10,34 @@ def create_books_table(cur):
     
     print "CREANDO TABLA Libros EN BASE DE DATOS"
     cur.execute("DROP TABLE IF EXISTS Libros")
-    cur.execute("CREATE TABLE Libros (registro INTEGER NOT NULL PRIMARY KEY UNIQUE, " +
-                                           "titulo TEXT NOT NULL DEFAULT ' ' UNIQUE, " +
-                                           "escritor TEXT NOT NULL DEFAULT ' ', " +
-                                           "editorial TEXT NOT NULL DEFAULT ' ', " +
-                                           "soporte TEXT NOT NULL DEFAULT 'LIBRO', " +
-                                           "fecha_entrada TEXT NOT NULL DEFAULT NULL, " +
-                                           "pais TEXT NOT NULL DEFAULT '0000-00-00', " +
-                                           "importe NUMERIC NOT NULL DEFAULT '0.0', " +
+    cur.execute("CREATE TABLE Libros (registro INT(4) NOT NULL PRIMARY KEY UNIQUE, " +
+                                           "titulo VARCHAR(35) NOT NULL DEFAULT ' ' UNIQUE, " +
+                                           "escritor VARCHAR(35) NOT NULL DEFAULT ' ', " +
+                                           "editorial VARCHAR(20) NOT NULL DEFAULT ' ', " +
+                                           "soporte VARCHAR(35) NOT NULL DEFAULT 'LIBRO', " +
+                                           "fecha_entrada DATE NOT NULL DEFAULT NULL, " +
+                                           "pais VARCHAR(20) NOT NULL DEFAULT '0000-00-00' , " +
+                                           "importe DECIMAL(8,2) NOT NULL DEFAULT 0.0, " +
                                            "anotaciones BLOB)")                                    
                                                                                        
 def create_customers_table(cur):
 
     print "CREANDO TABLA Compradores EN BASE DE DATOS"
     cur.execute("DROP TABLE IF EXISTS Compradores")
-    cur.execute("CREATE TABLE Compradores (registro INTEGER NOT NULL PRIMARY KEY UNIQUE, " +
-                                           "nombre TEXT NOT NULL DEFAULT ' ' UNIQUE, " +
-                                           "fecha_nacim TEXT NOT NULL DEFAULT '0000-00-00', " +
-                                           "telefono TEXT DEFAULT NULL, " +
-                                           "domicilio TEXT DEFAULT NULL, " +
-                                           "poblacion TEXT DEFAULT NULL, " +
+    cur.execute("CREATE TABLE Compradores (registro INT(4) NOT NULL PRIMARY KEY UNIQUE, " +
+                                           "nombre VARCHAR(35) NOT NULL DEFAULT ' ' UNIQUE, " +
+                                           "fecha_nacim DATE NOT NULL DEFAULT '0000-00-00', " +
+                                           "telefono VARCHAR(10) DEFAULT NULL, " +
+                                           "domicilio VARCHAR(35) DEFAULT NULL, " +
+                                           "poblacion VARCHAR(25) DEFAULT NULL, " +
                                            "anotaciones TEXT)")
 def create_purchases_table(cur):
     
     print "CREANDO TABLA Compras EN BASE DE DATOS"
     cur.execute("DROP TABLE IF EXISTS Compras")
-    cur.execute("CREATE TABLE Compras (registro INTEGER NOT NULL PRIMARY KEY UNIQUE, " +
-                                       "id_comprador INTEGER NOT NULL DEFAULT ' ', " + 
-                                       "id_libro INTEGER NOT NULL DEFAULT ' ')") 
+    cur.execute("CREATE TABLE Compras (registro INT(4) NOT NULL PRIMARY KEY UNIQUE, " +
+                                       "id_comprador INT(4) NOT NULL DEFAULT ' ', " + 
+                                       "id_libro INT(4) NOT NULL DEFAULT ' ')") 
 
 def db_create():
 
