@@ -3,12 +3,13 @@
 """
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
+
 import sqlite3
 import csv
 
-def encode(text):
-    return text.encode('utf-8')
 
+#--------------------------------------------------
+# Generic Functions to Insert
 def build_insert_query(content,table):
     columns=content[0]
     marks=list()
@@ -19,8 +20,8 @@ def build_insert_query(content,table):
     marks_str=" (" + marks_str + ")"
     columns_str=separator.join(columns)
     query="INSERT INTO "+table+" (" +columns_str+") Values"+marks_str
-    print query
     return query
+
 
     
 def execute_insert_query(content,query):
@@ -32,19 +33,21 @@ def execute_insert_query(content,query):
         else:
             single_row=tuple(content[i])
             rows.append(single_row)
-    #print rows  #esto lo he dejado solo por ver la codificacion      
     
     conn = sqlite3.connect('Libreria')
+    conn.text_factory = str
     cur = conn.cursor()
     cur.executemany(query,rows)
     msg=cur.rowcount
-    print msg , "filas insertadas correctamente!!"
+    print msg , "Filas insertadas correctamente!! \n" #puedes ver que se inserta
     cur.close()
     conn.commit()
     conn.close()
+
     
+#------------------------------------------------------
+#Specific Functions to insert in every table    
 def seed_books_table():
-    # TODO: parse db/seeds/libros.csv and insert its records into DB
     src=open("db/seeds/libros.csv") 
     pointer=csv.reader(src)
     content=list(pointer)
@@ -55,18 +58,28 @@ def seed_books_table():
         
         
 def seed_customers_table():
-    print "seed_customers_table()"
-    # TODO: parse db/seeds/compradores.csv and insert its records into DB
+    src=open("db/seeds/compradores.csv") 
+    pointer=csv.reader(src)
+    content=list(pointer)
+    table="Compradores"
+    query=build_insert_query(content,table)
+    execute_insert_query(content,query)
+    src.close()    
+    
 
 def seed_purchases_table():
-    print "seed_customers_table()"
-    # TODO: parse db/seeds/compras.csv and insert its records into DB
+    src=open("db/seeds/compras.csv") 
+    pointer=csv.reader(src)
+    content=list(pointer)
+    table="Compras"
+    query=build_insert_query(content,table)
+    execute_insert_query(content,query)
+    src.close()    
 
+    
+#-----------------------------
+# Principal Call    
 def db_seed():
-    # TODO: make connection to DB
-
     seed_books_table()
     seed_customers_table()
     seed_purchases_table()
-
-    # TODO: close connection to DB
