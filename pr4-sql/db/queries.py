@@ -15,9 +15,19 @@ def query_1(cur):
         print pais, ": ", numero, " libros vendidos" 
     
 def query_2(cur):
-    print "query_2()"
-    # TODO: obtener la media de los importes gastados por los compradores, agrupados por población y ordenados decrecientemente por el importe medio
-    
+    print "\nEjecutando query_2()...\n"
+
+    cur.execute(
+    "   SELECT poblacion, AVG(importe) AS importe_medio                        \
+        FROM (Compradores u JOIN Compras c ON (u.registro = c.id_comprador))   \
+            JOIN Libros l ON (c.id_libro = l.registro)                         \
+        GROUP BY poblacion                                                     \
+        ORDER BY importe_medio DESC                                            \
+    ")
+
+    for(poblacion, importe_medio) in cur.fetchall():
+        print poblacion + ": " + str(importe_medio)
+
 def query_3(cur):
     print "Ejecutando query_3()..."
     cur.execute("UPDATE Compras set id_comprador = ?, id_libro = ? " +
