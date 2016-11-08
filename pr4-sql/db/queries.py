@@ -42,9 +42,9 @@ def query_update_purchases(cur):
     print "Filas actualizadas correctamente!"
 
 def query_support_price_avg(cur):
-    cur.execute("SELECT soporte, SUM(importe) AS 'total' " +
     print "\nEjecutando query_support_price_avg()...\n"
 
+    cur.execute("SELECT soporte, AVG(importe) AS 'precio medio' " +
                 "FROM Libros " +
                 "GROUP BY soporte")
 
