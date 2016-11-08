@@ -3,11 +3,13 @@
 """
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
+
 import sqlite3
+
 
 def query_1(cur):
     print "\nEjecutando query_1()...\n"
-    
+
     cur.execute("SELECT l.pais, COUNT(c.id_libro) AS 'num_libros' " +
                 "FROM Libros l JOIN Compras c ON l.registro=c.id_libro " +
                 "GROUP BY l.pais " +
@@ -15,6 +17,7 @@ def query_1(cur):
 
     for (pais, numero) in cur.fetchall():
         print pais + ": ", numero, " libros vendidos"
+
 
 def query_2(cur):
     print "\nEjecutando query_2()...\n"
@@ -30,6 +33,7 @@ def query_2(cur):
     for(poblacion, importe_medio) in cur.fetchall():
         print poblacion + ": " + str(importe_medio)
 
+
 def query_update_purchases(cur):
     print "\nEjecutando query_3()...\n"
 
@@ -41,6 +45,7 @@ def query_update_purchases(cur):
 
     print "Filas actualizadas correctamente!"
 
+
 def query_support_price_avg(cur):
     print "\nEjecutando query_support_price_avg()...\n"
 
@@ -51,6 +56,7 @@ def query_support_price_avg(cur):
     for (soporte, tot) in cur.fetchall():
         print soporte, ": ", tot
 
+
 def query_delete_inactive_customers(cur):
     print "\nEjecutando query_delete_inactive_customers()...\n"
 
@@ -59,6 +65,7 @@ def query_delete_inactive_customers(cur):
                     "(SELECT DISTINCT id_comprador FROM Compras)" )
 
     print "Filas borradas correctamente!"
+
 
 def db_run_all_queries():
 
