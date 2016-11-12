@@ -19,9 +19,23 @@ def new_results():
     consulate_params['longitude'] = request.forms.get('longitude')
 
     new_consulate = Consulate.new(consulate_params)
-    
+
     redirect('/consulates')
 
+
+@route('/consulates/delete')
+def delete_form():
+    return template('consulate_delete_form.tpl')
+
+
+@route('/consulates/delete', method='POST')
+def delete_results():
+    consulate_id = request.forms.get('id')
+
+    consulates = Consulate.find('id', consulate_id)
+    consulates[0].destroy()
+
+    redirect('/consulates')
 
 @route('/consulates/filter')
 def filter_form():

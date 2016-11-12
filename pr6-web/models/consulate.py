@@ -52,6 +52,17 @@ class Consulate:
         db_close_connection(db)
 
 
+    def destroy(self):
+
+        db = db_open_connection()
+
+        db['cursor'].execute(
+            "DELETE FROM consulates WHERE id = " + str(self.id)
+        )
+
+        db_close_connection(db)
+
+
     def map_attrs_for_query(self):
 
         mapped_attrs = ""
