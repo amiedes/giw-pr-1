@@ -63,11 +63,13 @@ class Consulate:
 
         return mapped_attrs
 
+
     @staticmethod
     def new(object_params):
 
         new_consulate = Consulate(options = object_params)
         new_consulate.save()
+
 
     @staticmethod
     def find(filter_name, filter_value):
@@ -78,7 +80,7 @@ class Consulate:
             SELECT * FROM consulates \
             WHERE " + filter_name + " = " + Consulate.to_sql_str(filter_name, filter_value)
         )
-        result_data = Consulate.parse_cursor(cursor)
+        result_data = Consulate.cursor_to_list(cursor)
 
         db_close_connection(db)
 
@@ -91,7 +93,7 @@ class Consulate:
         db = db_open_connection()
 
         cursor = db['cursor'].execute("SELECT * FROM consulates")
-        result_data = Consulate.parse_cursor(cursor)
+        result_data = Consulate.cursor_to_list(cursor)
 
         db_close_connection(db)
 
@@ -116,17 +118,19 @@ class Consulate:
         csv_file.close()
 
 
-    # Transforms a cursor object into a dictionary list, consuming the cursor in
+    # Transforms a cursor object into an object list, consuming the cursor in
     # the process
     @staticmethod
-    def parse_cursor(cursor):
+    def cursor_to_list(cursor):
 
         result_list = []
 
         for idx, record in enumerate(cursor):
-            consulate = {}
+            consulate_params = {}
             for idx, column in enumerate(record):
-                consulate[Consulate.ATTRIBUTES[idx]] = column
+                consulate_params[Consulate.ATTRIBUTES[idx]] = column
+
+            consulate = Consulate(consulate_params)
             result_list.append(consulate)
 
         return result_list
