@@ -8,6 +8,6 @@ def show():
 
 
 @route('/consulates')
-def index():
+def all():
     consulates = Consulate.all()
     return template('all_consulates.tpl', data=consulates)
