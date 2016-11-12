@@ -17,3 +17,7 @@ pr2/FrecuenciaOrdenada.txt
 
 #Database files
 pr4-sql/Libreria
+
+#pr5_files
+pr5_scraping/*.pyc
+pr5_scraping/Entrada*
