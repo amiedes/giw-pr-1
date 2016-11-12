@@ -27,8 +27,11 @@ class Consulate:
 
     def __init__(self, options={}):
 
-        self.id = Consulate.next_id
-        Consulate.next_id += 1
+        if 'id' in options:
+            self.id = options['id']
+        else:
+            self.id = Consulate.next_id
+            Consulate.next_id += 1
 
         self.name = options['name']
         self.postal_code = options['postal_code']
