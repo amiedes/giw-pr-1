@@ -21,7 +21,7 @@ def new_results():
 
         new_consulate = Consulate.new(consulate_params)
         message = "Item was successfully created!"
-    except Exception, ValueError:
+    except:
         message = "An error occurred while performing the requested action"
     finally:
         return template('operation_result.tpl', message=message)
