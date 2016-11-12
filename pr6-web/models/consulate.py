@@ -13,7 +13,7 @@ from db.commands import db_close_connection
 
 class Consulate:
     next_id = 0
-    attributes = ['id', 'name', 'postal_code', 'neighborhood', 'district', 'latitude', 'longitude']
+    ATTRIBUTES = ['id', 'name', 'postal_code', 'neighborhood', 'district', 'latitude', 'longitude']
 
 
     def __init__(self, options={}):
@@ -78,7 +78,7 @@ class Consulate:
 
         for row in csv_content:
             params = {}
-            for idx, attr_name in enumerate(Consulate.attributes[1:]):  # skip 'id'
+            for idx, attr_name in enumerate(Consulate.ATTRIBUTES[1:]):  # skip 'id'
                 params[attr_name] = row[idx]
 
             consulate = Consulate(params)
@@ -97,7 +97,7 @@ class Consulate:
         for idx, record in enumerate(cursor):
             consulate = {}
             for idx, column in enumerate(record):
-                consulate[Consulate.attributes[idx]] = column
+                consulate[Consulate.ATTRIBUTES[idx]] = column
             result_list.append(consulate)
 
         return result_list
