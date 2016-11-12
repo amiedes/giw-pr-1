@@ -14,8 +14,8 @@ def main():
    print "Elige una Tarea:"
    print "1.- Download 2016 Images "
    print "2.- Search"
-   opt=raw_input("INTRODUCE EL NUMERO DE TAREA  \
-                 (para salir presiona 'q+Enter'):")
+   opt=raw_input("INTRODUCE EL NUMERO DE TAREA"  \
+                 +"(para salir presiona 'q+Enter'):")
    if(opt=="1"):
         url='http://trenesytiempos.blogspot.com.es/'
         print "\n Working.... Please Wait...\n"
