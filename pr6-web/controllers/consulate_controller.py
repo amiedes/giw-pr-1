@@ -1,5 +1,26 @@
-from bottle import route, template, request
+from bottle import route, template, request, redirect
 from models.consulate import Consulate
+
+
+@route('/consulates/new')
+def new_form():
+    return template('consulate_new_form.tpl')
+
+
+@route('/consulates/new', method='POST')
+def new_results():
+    consulate_params = {}
+
+    consulate_params['name'] = request.forms.get('name')
+    consulate_params['postal_code'] = request.forms.get('postal_code')
+    consulate_params['neighborhood'] = request.forms.get('neighborhood')
+    consulate_params['district'] = request.forms.get('district')
+    consulate_params['latitude'] = request.forms.get('latitude')
+    consulate_params['longitude'] = request.forms.get('longitude')
+
+    new_consulate = Consulate.new(consulate_params)
+    
+    redirect('/consulates')
 
 
 @route('/consulates/filter')

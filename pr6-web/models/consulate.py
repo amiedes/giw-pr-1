@@ -54,7 +54,7 @@ class Consulate:
         mapped_attrs = ""
 
         for idx, attr_name in enumerate(Consulate.ATTRIBUTES):
-            
+
             attr_value = getattr(self, attr_name)
             mapped_attrs += self.to_sql_str(attr_name, attr_value)
 
@@ -63,14 +63,11 @@ class Consulate:
 
         return mapped_attrs
 
-
     @staticmethod
-    def to_sql_str(field_name, field_value):
-        if Consulate.ATTR_TYPES[field_name] is str:
-            return "\'" + field_value + "\'"
-        else:
-            return str(field_value)
+    def new(object_params):
 
+        new_consulate = Consulate(options = object_params)
+        new_consulate.save()
 
     @staticmethod
     def find(filter_name, filter_value):
@@ -133,3 +130,11 @@ class Consulate:
             result_list.append(consulate)
 
         return result_list
+
+
+    @staticmethod
+    def to_sql_str(field_name, field_value):
+        if Consulate.ATTR_TYPES[field_name] is str:
+            return "\'" + field_value + "\'"
+        else:
+            return str(field_value)
