@@ -14,6 +14,15 @@ from db.commands import db_close_connection
 class Consulate:
     next_id = 0
     ATTRIBUTES = ['id', 'name', 'postal_code', 'neighborhood', 'district', 'latitude', 'longitude']
+    ATTR_TYPES = {
+        'id': int,
+        'name': str,
+        'postal_code': int,
+        'neighborhood': str,
+        'district': str,
+        'latitude': float,
+        'longitude': float
+    }
 
 
     def __init__(self, options={}):
@@ -44,16 +53,39 @@ class Consulate:
 
         mapped_attrs = ""
 
-        for idx, attr_name in enumerate(Consulate.attributes):
+        for idx, attr_name in enumerate(Consulate.ATTRIBUTES):
+            
             attr_value = getattr(self, attr_name)
-            if type(attr_value) is str:
-                mapped_attrs += ("\'" + attr_value + "\'")
-            else:
-                mapped_attrs += str(attr_value)
-            if (idx < len(Consulate.attributes) - 1):
+            mapped_attrs += self.to_sql_str(attr_name, attr_value)
+
+            if (idx < len(Consulate.ATTRIBUTES) - 1):
                 mapped_attrs += ", "
 
         return mapped_attrs
+
+
+    @staticmethod
+    def to_sql_str(field_name, field_value):
+        if Consulate.ATTR_TYPES[field_name] is str:
+            return "\'" + field_value + "\'"
+        else:
+            return str(field_value)
+
+
+    @staticmethod
+    def find(filter_name, filter_value):
+
+        db = db_open_connection()
+
+        cursor = db['cursor'].execute("\
+            SELECT * FROM consulates \
+            WHERE " + filter_name + " = " + Consulate.to_sql_str(filter_name, filter_value)
+        )
+        result_data = Consulate.parse_cursor(cursor)
+
+        db_close_connection(db)
+
+        return result_data
 
 
     @staticmethod

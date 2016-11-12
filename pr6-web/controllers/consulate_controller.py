@@ -2,9 +2,10 @@ from bottle import route, template
 from models.consulate import Consulate
 
 
-@route('/consulate/<id>')
-def show():
-    return 'TODO: a single item based on id'
+@route('/consulates/<filter_name>/<filter_value>')
+def filter(filter_name, filter_value):
+    consulates = Consulate.find(filter_name, filter_value)
+    return template('filtered_consulates.tpl', consulates=consulates)
 
 
 @route('/consulates')
