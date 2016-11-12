@@ -6,6 +6,7 @@
 
 from bottle import route, run
 from controllers.consulate_controller import *
+from controllers.welcome_controller import *
 from db.commands import db_create, db_reset, db_open_connection, db_close_connection
 from models.consulate import Consulate
 
