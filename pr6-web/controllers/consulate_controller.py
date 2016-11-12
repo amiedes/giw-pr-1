@@ -9,18 +9,22 @@ def new_form():
 
 @route('/consulates/new', method='POST')
 def new_results():
-    consulate_params = {}
+    try:
+        consulate_params = {}
 
-    consulate_params['name'] = request.forms.get('name')
-    consulate_params['postal_code'] = request.forms.get('postal_code')
-    consulate_params['neighborhood'] = request.forms.get('neighborhood')
-    consulate_params['district'] = request.forms.get('district')
-    consulate_params['latitude'] = request.forms.get('latitude')
-    consulate_params['longitude'] = request.forms.get('longitude')
+        consulate_params['name'] = request.forms.get('name')
+        consulate_params['postal_code'] = request.forms.get('postal_code')
+        consulate_params['neighborhood'] = request.forms.get('neighborhood')
+        consulate_params['district'] = request.forms.get('district')
+        consulate_params['latitude'] = request.forms.get('latitude')
+        consulate_params['longitude'] = request.forms.get('longitude')
 
-    new_consulate = Consulate.new(consulate_params)
-
-    redirect('/consulates')
+        new_consulate = Consulate.new(consulate_params)
+        message = "Item was successfully created!"
+    except Exception, ValueError:
+        message = "An error occurred while performing the requested action"
+    finally:
+        return template('operation_result.tpl', message=message)
 
 
 @route('/consulates/delete')
@@ -30,12 +34,18 @@ def delete_form():
 
 @route('/consulates/delete', method='POST')
 def delete_results():
-    consulate_id = request.forms.get('id')
+    try:
+        consulate_id = request.forms.get('id')
 
-    consulates = Consulate.find('id', consulate_id)
-    consulates[0].destroy()
+        consulates = Consulate.find('id', consulate_id)
+        consulates[0].destroy()
 
-    redirect('/consulates')
+        message = "Item was successfully deleted!"
+    except:
+        message = "An error occurred while performing the requested action"
+    finally:
+        return template('operation_result.tpl', message=message)
+
 
 @route('/consulates/filter')
 def filter_form():
@@ -44,13 +54,21 @@ def filter_form():
 
 @route('/consulates/filter', method='POST')
 def filter_results():
-    filter_name = request.forms.get('field_name')
-    filter_value = request.forms.get('field_value')
-    consulates = Consulate.find(filter_name, filter_value)
-    return template('consulate_filter_results.tpl', consulates=consulates)
+    try:
+        filter_name = request.forms.get('field_name')
+        filter_value = request.forms.get('field_value')
+        consulates = Consulate.find(filter_name, filter_value)
+        return template('consulate_filter_results.tpl', consulates=consulates)
+    except:
+        message = "An error occurred while performing the requested action"
+        return template('operation_result.tpl', message=message)
 
 
 @route('/consulates')
 def all():
-    consulates = Consulate.all()
-    return template('consulate_all.tpl', data=consulates)
+    try:
+        consulates = Consulate.all()
+        return template('consulate_all.tpl', data=consulates)
+    except:
+        message = "An error occurred while performing the requested action"
+        return template('operation_result.tpl', message=message)
