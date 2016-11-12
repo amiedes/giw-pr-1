@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lant="es">
-<head></head>
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 <body>
   <h1>Welcome!</h1>
   <h2>What do you want to do?</h2>

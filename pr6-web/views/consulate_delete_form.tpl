@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lant="es">
-<head></head>
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 <body>
   Specify ID of the consulate you want to delete:
   <form action="delete" method="post">

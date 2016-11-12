@@ -1,4 +1,4 @@
-from bottle import route, template
+from bottle import route, template, get, static_file
 
 
 @route('/')
@@ -6,3 +6,7 @@ from bottle import route, template
 @route('/index.html')
 def welcome():
     return template('welcome.tpl')
+
+@get('/<filename:re:.*\.css>')
+def stylesheets(filename):
+    return static_file(filename, root='static/')

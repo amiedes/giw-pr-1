@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lant="es">
-<head></head>
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 <body>
   Create a new consulate:
   <form action="new" method="post">

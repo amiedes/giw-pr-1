@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lant="es">
-<head></head>
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 <body>
   Specify a search filter:
   <form action="filter" method="post">

@@ -1,23 +1,24 @@
 <!DOCTYPE html>
 <html lant="es">
-<head></head>
+<head>
+  <link rel="stylesheet" type="text/css" href="main.css">
+</head>
 <body>
   <h1>All consulates</h1>
-  <ul>
+  <ul class="no-bullets">
     % for consulate in data:
       <li>
-        --------------------
-        <ul>
-          <li>{{consulate.id}}</li>
-          <li>{{consulate.name}}</li>
-          <li>{{consulate.postal_code}}</li>
-          <li>{{consulate.neighborhood}}</li>
-          <li>{{consulate.district}}</li>
-          <li>{{consulate.latitude}}</li>
-          <li>{{consulate.longitude}}</li>
+        <ul class="no-bullets">
+          <li><strong>Id</strong>: {{consulate.id}}</li>
+          <li><strong>Name</strong>: {{consulate.name}}</li>
+          <li><strong>Postal code</strong>: {{consulate.postal_code}}</li>
+          <li><strong>Neighborhood</strong>: {{consulate.neighborhood}}</li>
+          <li><strong>District</strong>: {{consulate.district}}</li>
+          <li><strong>Latitude</strong>: {{consulate.latitude}}</li>
+          <li><strong>Longitude</strong>: {{consulate.longitude}}</li>
         </ul>
-        --------------------
       </li>
+      <p>----------------------------------</p>
     % end
   </ul>
 </body>
