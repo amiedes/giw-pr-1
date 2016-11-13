@@ -4,26 +4,29 @@
 @authors: Daniel Reyes, Ania Pietrzak, Alberto Miedes
 """
 from ej1_download import download_images
+from ej2_browser import browse
 
 def main():
+ url='http://trenesytiempos.blogspot.com.es/'   
  while True:
    print       " --------------" \
          +"\n"+"| Web Scraping |"\
          +"\n"+" --------------" 
    
-   print "Elige una Tarea:"
+   print "Choose A Task:"
    print "1.- Download 2016 Images "
-   print "2.- Search"
-   opt=raw_input("INTRODUCE EL NUMERO DE TAREA"  \
-                 +"(para salir presiona 'q+Enter'):")
+   print "2.- Search Words"
+   opt=raw_input("WRITE YOUR TASK NUMBER"  \
+                 +"(To Exit press 'q+Enter'):")
    if(opt=="1"):
-        url='http://trenesytiempos.blogspot.com.es/'
         print "\n Working.... Please Wait...\n"
         download_images(url)
         print "OK-All your images ready..!!!"
         break
    elif(opt=="2"):
-        print "Ejercicio2_not Yet"
+        phrase=""
+        phrase=raw_input("Words to Search ? :")
+        browse(url,phrase)
         break
    elif(opt=="q"):
         break 
