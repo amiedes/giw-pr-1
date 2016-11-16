@@ -10,5 +10,6 @@
   <p><a href="consulates/filter">Search for a specific consulate</a></p>
   <p><a href="consulates/new">Create a new consulate</a></p>
   <p><a href="consulates/delete">Delete a specific consulate</a></p>
+  <p><a href="consulates/modify">Modify a specific consulate</a></p>
 </body>
 </html>

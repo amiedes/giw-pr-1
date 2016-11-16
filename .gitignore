@@ -18,3 +18,7 @@ pr2/FrecuenciaOrdenada.txt
 #Database files
 pr4-sql/Libreria
 pr6-web/practica6
+
+#6 programacion web
+pr6-web/bottle.py
+

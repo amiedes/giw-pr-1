@@ -63,6 +63,39 @@ def filter_results():
         message = "An error occurred while performing the requested action"
         return template('operation_result.tpl', message=message)
 
+@route('/consulates/modify')
+def modify_form():
+    return template('consulate_update.tpl')
+    
+@route('/consulates/modify', method='POST')
+def modify_results():
+    try:
+        
+        consulate_params = {}
+        if (request.forms.get('id')):
+            requested_id = request.forms.get('id')
+        if (request.forms.get('name')):
+            consulate_params['name'] = request.forms.get('name')
+        if (request.forms.get('postal_code')):
+            consulate_params['postal_code'] = request.forms.get('postal_code')
+        if (request.forms.get('neighborhood')):
+            consulate_params['neighborhood'] = request.forms.get('neighborhood')
+        if (request.forms.get('district')):
+            consulate_params['district'] = request.forms.get('district')
+        if (request.forms.get('latitude')):
+            consulate_params['latitude'] = request.forms.get('latitude')
+        if (request.forms.get('longitude')):
+            consulate_params['longitude'] = request.forms.get('longitude')
+    
+        if (Consulate.modify(consulate_params, requested_id)):
+            message = "Item was successfully updated!"
+        else:
+            message = "There is no consulate with such id!"
+    except:
+        message = "An error occurred while performing the requested action"+ str(consulate_params)
+    finally:
+        return template('operation_result.tpl', message=message), "hola2"
+        
 
 @route('/consulates')
 def all():

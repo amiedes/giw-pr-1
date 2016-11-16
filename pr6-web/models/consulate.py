@@ -61,6 +61,24 @@ class Consulate:
         )
 
         db_close_connection(db)
+    
+    def modify(self, object_params, requested_id):
+        db = db_open_connection()
+        print "hola"
+        claves = object_params.keys()
+        print claves
+        columnas = claves.join("=?,")
+        print columnas
+        columnas = columnas + "=? "
+        print columnas
+        valores = object_params.values()
+        print valores
+            
+        db['cursor'].execute(
+            "UPDATE consulates SET " + columnas + "WHERE id=?", valores.append(requested_id )
+        )
+        
+        db_close_connection(db)
 
 
     def map_attrs_for_query(self):
