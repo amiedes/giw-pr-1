@@ -35,12 +35,15 @@ def delete_form():
 @route('/consulates/delete', method='POST')
 def delete_results():
     try:
-        consulate_id = request.forms.get('id')
-
-        consulates = Consulate.find('id', consulate_id)
-        consulates[0].destroy()
-
-        message = "Item was successfully deleted!"
+        if (request.forms.get('id')):
+            consulate_id = request.forms.get('id')
+            
+            consulates = Consulate.find('id', consulate_id)
+            consulates[0].destroy()
+    
+            message = "Item was successfully deleted!"
+        else:
+            message = "You must eneter the id!"
     except:
         message = "An error occurred while performing the requested action"
     finally:
@@ -70,10 +73,8 @@ def modify_form():
 @route('/consulates/modify', method='POST')
 def modify_results():
     try:
-        
         consulate_params = {}
-        if (request.forms.get('id')):
-            requested_id = request.forms.get('id')
+        
         if (request.forms.get('name')):
             consulate_params['name'] = request.forms.get('name')
         if (request.forms.get('postal_code')):
@@ -86,15 +87,18 @@ def modify_results():
             consulate_params['latitude'] = request.forms.get('latitude')
         if (request.forms.get('longitude')):
             consulate_params['longitude'] = request.forms.get('longitude')
-    
-        if (Consulate.modify(consulate_params, requested_id)):
-            message = "Item was successfully updated!"
+        
+        if (request.forms.get('id')):
+            requested_id = request.forms.get('id')
+            consulates = Consulate.find('id', requested_id)
+            consulates[0].modify(consulate_params, requested_id)
+            message = "Item was successfully modified!"
         else:
-            message = "There is no consulate with such id!"
+            message = "You must enter the id!"
     except:
         message = "An error occurred while performing the requested action"+ str(consulate_params)
     finally:
-        return template('operation_result.tpl', message=message), "hola2"
+        return template('operation_result.tpl', message=message)
         
 
 @route('/consulates')

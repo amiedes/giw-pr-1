@@ -63,23 +63,22 @@ class Consulate:
         db_close_connection(db)
     
     def modify(self, object_params, requested_id):
-        db = db_open_connection()
-        print "hola"
-        claves = object_params.keys()
-        print claves
-        columnas = claves.join("=?,")
-        print columnas
-        columnas = columnas + "=? "
-        print columnas
-        valores = object_params.values()
-        print valores
-            
-        db['cursor'].execute(
-            "UPDATE consulates SET " + columnas + "WHERE id=?", valores.append(requested_id )
-        )
-        
-        db_close_connection(db)
 
+        
+        db = db_open_connection()
+        claves = object_params.keys()
+        columnas = ''
+        for clave in claves:
+            columnas = columnas + str(clave) + '=?, '
+        columnas = columnas[:-2]
+        sql = "UPDATE consulates SET " + columnas + " WHERE id=?"
+
+        values = object_params.values()
+        values.append(requested_id)
+
+        db['cursor'].execute(sql, values)
+                
+        db_close_connection(db)            
 
     def map_attrs_for_query(self):
 
@@ -174,3 +173,4 @@ class Consulate:
             return "\'" + field_value + "\'"
         else:
             return str(field_value)
+            
