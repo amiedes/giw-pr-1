@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lant="es">
+<html lang="es">
 <head>
   <link rel="stylesheet" type="text/css" href="main.css">
 </head>
