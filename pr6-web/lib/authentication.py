@@ -24,7 +24,7 @@ class Authentication:
 
 
     @staticmethod
-    def check_session():
+    def check_session(request):
 
         session_id = request.get_cookie("session_id")
 
@@ -32,15 +32,9 @@ class Authentication:
             raise AuthenticationException("You need to log in!")
 
 
-    @staticmethod
-    def create_session(request, user_id):
-        print "before setting cookie"
-        print "user id : " +str(user_id)
-        request.set_cookie("session_id", str(user_id))
-        print "cookies set correctly!"
-
-    @staticmethod
-    def destroy_session():
-
-        if request.get_cookie("session_id"):
-            response.set_cookie("session_id", None)
+    # TODO: need to move this back to controllers
+    # @staticmethod
+    # def destroy_session(request):
+    #
+    #     if request.get_cookie("session_id"):
+    #         response.set_cookie("session_id", None)

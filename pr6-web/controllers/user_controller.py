@@ -1,4 +1,4 @@
-from bottle import route, template, get, static_file, request
+from bottle import route, template, get, static_file, request, response
 from models.user import User
 from lib.authentication import Authentication
 
@@ -20,7 +20,11 @@ def do_login():
 
         if user_id >= 0:
             print "NOW I'LL CREATE A SESSION"
-            Authentication.create_session(request, user_id)
+            #Authentication.create_session(request, user_id)
+            print "User ID: ", user_id
+            response.set_cookie("session_id", str(user_id))
+            print "response cookie set correctly"
+            message = "Login was successful!"
         else:
             message = "Your login data was not correct"
     except:
