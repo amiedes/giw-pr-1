@@ -11,5 +11,6 @@
   <p><a href="consulates/new">Create a new consulate</a></p>
   <p><a href="consulates/delete">Delete a specific consulate</a></p>
   <p><a href="consulates/modify">Modify a specific consulate</a></p>
+  <p><a href="logout">Logout</a></p>
 </body>
 </html>

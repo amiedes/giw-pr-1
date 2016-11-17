@@ -1,4 +1,4 @@
-from bottle import route, template, get, static_file, request, response
+from bottle import route, template, get, static_file, request, response, redirect
 from models.user import User
 from lib.authentication import Authentication
 
@@ -46,3 +46,9 @@ def do_register():
         message = "An error occurred while performing the requested action"
     finally:
         return template('login.tpl', message=message)
+
+@route('/logout')
+def logout():
+    if request.get_cookie("session_id"):
+        response.set_cookie("session_id", '', expires=0)
+    redirect('/login')
