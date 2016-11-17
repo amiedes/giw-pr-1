@@ -124,7 +124,7 @@ class User:
         if result_data is None:
             return -1
         else:
-            return result_data
+            return result_data[0]
 
 
 

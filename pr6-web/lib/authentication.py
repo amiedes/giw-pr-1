@@ -6,6 +6,7 @@
 
 import sqlite3
 import os
+from bottle import request, response
 from models.user import User
 from db.commands import db_open_connection
 from db.commands import db_close_connection
@@ -23,7 +24,7 @@ class Authentication:
 
 
     @staticmethod
-    def check_session(request):
+    def check_session():
 
         session_id = request.get_cookie("session_id")
 
@@ -33,12 +34,13 @@ class Authentication:
 
     @staticmethod
     def create_session(request, user_id):
-
-        request.set_cookie("session_id", user_id)
-
+        print "before setting cookie"
+        print "user id : " +str(user_id)
+        request.set_cookie("session_id", str(user_id))
+        print "cookies set correctly!"
 
     @staticmethod
-    def destroy_session(request):
+    def destroy_session():
 
         if request.get_cookie("session_id"):
-            request.set_cookie("session_id", None)
+            response.set_cookie("session_id", None)

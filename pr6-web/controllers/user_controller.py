@@ -21,13 +21,12 @@ def do_login():
         if user_id >= 0:
             print "NOW I'LL CREATE A SESSION"
             Authentication.create_session(request, user_id)
-            redirect('/welcome')
         else:
             message = "Your login data was not correct"
     except:
         message = "An error occurred while performing the requested action"
     finally:
-        return template('operation_result.tpl', message=message)
+        return template('successful_login.tpl', message=message)
 
 @route ('/register', method='POST')
 def do_register():
@@ -42,4 +41,4 @@ def do_register():
     except:
         message = "An error occurred while performing the requested action"
     finally:
-        return template('operation_result.tpl', message=message)
+        return template('login.tpl', message=message)
