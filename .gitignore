@@ -5,18 +5,24 @@
 *.pyc
 test.txt
 
-# CSV output files
+# Práctica 2
+# -----------------------------------
 pr2/AguaAgrupada.csv
 pr2/FrecuenciaResiduos.csv
 pr2/Contaminantes.csv
 
-#Json & txt output files
 pr2/SemaforosFrecuencia.json
 pr2/ej2/SemaforosFrecuencia.txt
 pr2/FrecuenciaOrdenada.txt
 
-#Database files
+# Práctica 4
+# -----------------------------------
 pr4-sql/Libreria
 
-#pr5_files
+# Práctica 5
+# -----------------------------------
 pr5_scraping/Entrada*
+
+# Práctica 6
+# -----------------------------------
+pr6-web/practica6
