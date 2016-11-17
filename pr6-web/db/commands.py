@@ -41,16 +41,16 @@ def create_consulates_table(cursor):
             longitude       DECIMAL(8,2)    DEFAULT NULL \
         )"
     )
-        
+
 def create_users_table(cursor):
     print "Creating users table..."
-    
+
     cursor.execute(
         "CREATE TABLE users ( \
             id              INT(16)         NOT NULL PRIMARY KEY UNIQUE, \
             name            VARCHAR(32)     NOT NULL, \
             surname         VARCHAR(32)     NOT NULL, \
-            login           VARCHAR(32)     NOT NULL, \
+            username        VARCHAR(32)     NOT NULL, \
             password        VARCHAR(32)     NOT NULL  \
         )"
     )
@@ -61,7 +61,7 @@ def drop_consulates_table(cursor):
     print "Table consulates dropped"
 
 def drop_users_table(cursor):
-    
+
     cursor.execute("DROP TABLE IF EXISTS users")
     print "Table users dropped"
 
@@ -78,11 +78,11 @@ def db_reset():
     print "Reseting database..."
 
     db = db_open_connection()
-    
+
     drop_consulates_table(db['cursor'])
     create_consulates_table(db['cursor'])
-    
+
     drop_users_table(db['cursor'])
     create_users_table(db['cursor'])
-    
+
     db_close_connection(db)
