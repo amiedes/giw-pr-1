@@ -1,9 +1,8 @@
 from bottle import route, template, get, static_file
 
 
-@route('/')
+
 @route('/welcome')
-@route('/index.html')
 def welcome():
     return template('welcome.tpl')
 
