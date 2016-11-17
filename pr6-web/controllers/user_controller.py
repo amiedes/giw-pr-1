@@ -21,12 +21,13 @@ def do_login():
         if user_id >= 0:
             response.set_cookie("session_id", str(user_id))
             message = "Login was successful!"
+            return template('login_result.tpl', link='/welcome',message=message)
         else:
             message = "Your login data was not correct"
+            return template('login_result.tpl', link='/login',message=message)
     except:
         message = "An error occurred while performing the requested action"
-    finally:
-        return template('successful_login.tpl', message=message)
+        return template('login_result.tpl', link='/login',message=message)
 
 
 @route('/register', method='POST')
@@ -39,10 +40,10 @@ def do_register():
         user_params['password'] = request.forms.get('new_password')
         User.new(user_params)
         message = "Account was created correctly"
+        return template('login_result.tpl', link='/login',message=message)
     except:
         message = "An error occurred while performing the requested action"
-    finally:
-        return template('login.tpl', message=message)
+        return template('login_result.tpl', link='/login',message=message)
 
 
 @route('/logout')
