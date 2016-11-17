@@ -11,19 +11,13 @@ def login():
 @route ('/login', method='POST')
 def do_login():
     try:
-        print "TRYINT TO DO LOGIN"
         username = request.forms.get('username')
         password = request.forms.get('password')
 
-        print "NOW I'LL CHECK LOGIN"
         user_id = Authentication.check_login(username, password)
 
         if user_id >= 0:
-            print "NOW I'LL CREATE A SESSION"
-            #Authentication.create_session(request, user_id)
-            print "User ID: ", user_id
             response.set_cookie("session_id", str(user_id))
-            print "response cookie set correctly"
             message = "Login was successful!"
         else:
             message = "Your login data was not correct"

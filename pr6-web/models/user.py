@@ -77,12 +77,9 @@ class User:
 
     @staticmethod
     def new(object_params):
-        print "Now i'll try to create a user"
+
         new_user = User(options = object_params)
-        print "I created the following user: ", str(new_user)
-        print "Now i'll try to save it"
         new_user.save()
-        print "User saved in DB!"
 
     @staticmethod
     def find(filter_name, filter_value):
@@ -103,30 +100,21 @@ class User:
 
     @staticmethod
     def check_credentials(username, password):
-        print "Trying to open connection to db"
+
         db = db_open_connection()
 
-        print "Checking credentials in DB for (usr, pwd):", username, password
-        query = "SELECT id FROM users WHERE (username = \'" + username + "\' AND password = \'" + password + "\')"
+        cursor = db['cursor'].execute("\
+            SELECT id FROM users \
+            WHERE (username = \'" + username + "\' AND password = \'" + password + "\')"
+        )
 
-        print "Query is: ", query
-        cursor = db['cursor'].execute(query)
-        # cursor = db['cursor'].execute("\
-        #     SELECT id FROM users \
-        #     WHERE username=\'" + username + "\'AND password=\'" + password + "\'"
-        # )
-        print "Query was OK"
         result_data = cursor.fetchone()
-        print "HERE 1"
         db_close_connection(db)
-        print "HERE 2"
 
         if result_data is None:
             return -1
         else:
             return result_data[0]
-
-
 
 
     # Transforms a cursor object into an object list, consuming the cursor in

@@ -18,7 +18,6 @@ class Authentication:
 
     @staticmethod
     def check_login(username, password):
-        print "inside auth. class ini lib"
         user_id = User.check_credentials(username, password)
         return user_id
 
