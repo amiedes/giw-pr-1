@@ -11,8 +11,10 @@ from models.user import User
 from db.commands import db_open_connection
 from db.commands import db_close_connection
 
+
 class AuthenticationException(Exception):
     pass
+
 
 class Authentication:
 
@@ -29,11 +31,3 @@ class Authentication:
 
         if session_id is None:
             raise AuthenticationException("You need to log in!")
-
-
-    # TODO: need to move this back to controllers
-    # @staticmethod
-    # def destroy_session(request):
-    #
-    #     if request.get_cookie("session_id"):
-    #         response.set_cookie("session_id", None)

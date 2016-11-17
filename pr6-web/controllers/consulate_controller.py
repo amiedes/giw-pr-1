@@ -2,6 +2,7 @@ from bottle import route, template, request, redirect
 from models.consulate import Consulate
 from lib.authentication import Authentication, AuthenticationException
 
+
 @route('/consulates/new')
 def new_form():
     try:
@@ -125,7 +126,6 @@ def modify_results():
             consulate_params['latitude'] = request.forms.get('latitude')
         if (request.forms.get('longitude')):
             consulate_params['longitude'] = request.forms.get('longitude')
-
         if (request.forms.get('id')):
             requested_id = request.forms.get('id')
             consulates = Consulate.find('id', requested_id)
@@ -136,7 +136,7 @@ def modify_results():
     except AuthenticationException as ae:
         message = "You are not logged in!"
     except:
-        message = "An error occurred while performing the requested action"+ str(consulate_params)
+        message = "An error occurred while performing the requested action" + str(consulate_params)
     finally:
         return template('operation_result.tpl', message=message)
 

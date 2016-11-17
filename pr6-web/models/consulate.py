@@ -14,6 +14,7 @@ from db.commands import db_close_connection
 class Consulate:
     next_id = 0
     ATTRIBUTES = ['id', 'name', 'postal_code', 'neighborhood', 'district', 'latitude', 'longitude']
+
     ATTR_TYPES = {
         'id': int,
         'name': str,
@@ -61,10 +62,10 @@ class Consulate:
         )
 
         db_close_connection(db)
-    
+
+
     def modify(self, object_params, requested_id):
 
-        
         db = db_open_connection()
         claves = object_params.keys()
         columnas = ''
@@ -77,8 +78,9 @@ class Consulate:
         values.append(requested_id)
 
         db['cursor'].execute(sql, values)
-                
-        db_close_connection(db)            
+
+        db_close_connection(db)
+
 
     def map_attrs_for_query(self):
 
@@ -98,7 +100,7 @@ class Consulate:
     @staticmethod
     def new(object_params):
 
-        new_consulate = Consulate(options = object_params)
+        new_consulate = Consulate(options=object_params)
         new_consulate.save()
 
 
@@ -173,4 +175,3 @@ class Consulate:
             return "\'" + field_value + "\'"
         else:
             return str(field_value)
-            

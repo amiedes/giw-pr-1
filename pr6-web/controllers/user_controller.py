@@ -2,13 +2,15 @@ from bottle import route, template, get, static_file, request, response, redirec
 from models.user import User
 from lib.authentication import Authentication
 
+
 @route('/')
 @route('/index.html')
 @route('/login')
 def login():
     return template('login.tpl')
 
-@route ('/login', method='POST')
+
+@route('/login', method='POST')
 def do_login():
     try:
         username = request.forms.get('username')
@@ -26,7 +28,8 @@ def do_login():
     finally:
         return template('successful_login.tpl', message=message)
 
-@route ('/register', method='POST')
+
+@route('/register', method='POST')
 def do_register():
     try:
         user_params = {}
@@ -40,6 +43,7 @@ def do_register():
         message = "An error occurred while performing the requested action"
     finally:
         return template('login.tpl', message=message)
+
 
 @route('/logout')
 def logout():
