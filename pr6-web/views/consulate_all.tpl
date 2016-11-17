@@ -21,5 +21,6 @@
       <p>----------------------------------</p>
     % end
   </ul>
+  <p><a href={{link}}>Go back to welcome page</p>
 </body>
 </html>

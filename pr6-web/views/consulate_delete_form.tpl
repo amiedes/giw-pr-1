@@ -9,5 +9,6 @@
     <p>ID: <input name="id" type="number"/></p>
     <input value="Delete" type="submit"/>
   </form>
+  <p><a href={{link}}>Go back to welcome page</p>
 </body>
 </html>

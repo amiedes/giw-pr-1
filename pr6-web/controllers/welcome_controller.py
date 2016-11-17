@@ -9,7 +9,7 @@ def welcome():
         return template('welcome.tpl')
     except AuthenticationException as ae:
         message = "You are not logged in!"
-        return template('operation_result.tpl', message=message)
+        return template('sign_in.tpl', message=message)
 
 
 @get('/<filename:re:.*\.css>')

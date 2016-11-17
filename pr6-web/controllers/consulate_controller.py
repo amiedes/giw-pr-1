@@ -10,7 +10,7 @@ def new_form():
         return template('consulate_new_form.tpl')
     except AuthenticationException as ae:
         message = "You are not logged in!"
-        return template('operation_result.tpl', message=message)
+        return template('sign_in.tpl', message=message)
 
 
 @route('/consulates/new', method='POST')
@@ -40,13 +40,13 @@ def new_results():
 @route('/consulates/delete')
 def delete_form():
     try:
+        print "hola1"
         Authentication.check_session(request)
-        return template('consulate_delete_form.tpl')
+        print "hola2"
+        return template('consulate_delete_form.tpl', link='/welcome')
     except AuthenticationException as ae:
         message = "You are not logged in!"
-        return template('operation_result.tpl', message=message)
-    return template('consulate_delete_form.tpl')
-
+        return template('sign_in.tpl', message=message)
 
 @route('/consulates/delete', method='POST')
 def delete_results():
@@ -77,7 +77,7 @@ def filter_form():
         return template('consulate_filter_form.tpl')
     except AuthenticationException as ae:
         message = "You are not logged in!"
-        return template('operation_result.tpl', message=message)
+        return template('sign_in.tpl', message=message)
 
 
 @route('/consulates/filter', method='POST')
@@ -88,10 +88,10 @@ def filter_results():
         filter_name = request.forms.get('field_name')
         filter_value = request.forms.get('field_value')
         consulates = Consulate.find(filter_name, filter_value)
-        return template('consulate_filter_results.tpl', consulates=consulates)
+        return template('consulate_filter_results.tpl', consulates=consulates, link='/welcome')
     except AuthenticationException as ae:
         message = "You are not logged in!"
-        return template('operation_result.tpl', message=message)
+        return template('sign_in.tpl', message=message)
     except:
         message = "An error occurred while performing the requested action"
         return template('operation_result.tpl', message=message)
@@ -104,7 +104,7 @@ def modify_form():
         return template('consulate_update.tpl')
     except AuthenticationException as ae:
         message = "You are not logged in!"
-        return template('operation_result.tpl', message=message)
+        return template('sign_in.tpl', message=message)
 
 
 @route('/consulates/modify', method='POST')
@@ -146,10 +146,10 @@ def all():
     try:
         Authentication.check_session(request)
         consulates = Consulate.all()
-        return template('consulate_all.tpl', data=consulates)
+        return template('consulate_all.tpl', data=consulates, link='/welcome')
     except AuthenticationException as ae:
         message = "You are not logged in!"
-        return template('operation_result.tpl', message=message)
+        return template('sign_in.tpl', message=message)
     except:
         message = "An error occurred while performing the requested action"
         return template('operation_result.tpl', message=message)
