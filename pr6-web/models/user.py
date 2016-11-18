@@ -44,16 +44,6 @@ class User:
 
         db_close_connection(db)
 
-    def saveTocsv(self):
-        attributesList = list()
-        attributesList.append(self.name)
-        attributesList.append(self.surname)
-        attributesList.append(self.username)
-        attributesList.append(self.password)
-        with open('models/users_seed.csv', 'a') as fp:
-            a = csv.writer(fp, delimiter=';')
-            a.writerow(attributesList)
-
     def map_attrs_for_query(self):
 
         mapped_attrs = ""
@@ -87,7 +77,6 @@ class User:
     @staticmethod
     def new(object_params):
         new_user = User(options = object_params)
-        new_user.saveTocsv()
         new_user.save()
 
     @staticmethod
