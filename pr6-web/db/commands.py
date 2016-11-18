@@ -67,9 +67,11 @@ def drop_users_table(cursor):
 
 def db_create():
 
-    db = db_open_connection
+    db = db_open_connection()
+
     create_consulates_table(db['cursor'])
     create_users_table(db['cursor'])
+
     db_close_connection(db)
 
 

@@ -13,8 +13,10 @@ from db.commands import db_create, db_reset, db_open_connection, db_close_connec
 from models.consulate import Consulate
 from models.user import User
 
-db_reset()
-Consulate.seed()
-User.seed()
+reset = True
+if reset:
+    db_reset()
+    Consulate.seed()
+    User.seed()
 
 run( host = '0.0.0.0', port = 8080)
