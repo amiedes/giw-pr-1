@@ -11,7 +11,7 @@ from db.commands import db_open_connection
 from db.commands import db_close_connection
 
 class User:
-    next_id = 0
+    #next_id = 0
     ATTRIBUTES = ['id', 'name', 'surname', 'username', 'password']
     ATTR_TYPES = {
         'id': int,
@@ -26,8 +26,9 @@ class User:
         if 'id' in options:
             self.id = options['id']
         else:
-            self.id = User.next_id
-            User.next_id += 1
+            self.id = None
+            #self.id = User.next_id
+            #User.next_id += 1
 
         self.name = options['name']
         self.surname = options['surname']
@@ -66,7 +67,7 @@ class User:
 
         for row in csv_content:
             params = {}
-            for idx, attr_name in enumerate(User.ATTRIBUTES[1:]):  # skip 'id'
+            for idx, attr_name in enumerate(User.ATTRIBUTES):
                 params[attr_name] = row[idx]
 
             user = User(params)
@@ -135,7 +136,9 @@ class User:
 
     @staticmethod
     def to_sql_str(field_name, field_value):
-        if User.ATTR_TYPES[field_name] is str:
+        if field_value is None:
+            return 'NULL'
+        elif User.ATTR_TYPES[field_name] is str:
             return "\'" + field_value + "\'"
         else:
             return str(field_value)

@@ -32,7 +32,7 @@ def create_consulates_table(cursor):
 
     cursor.execute(
         "CREATE TABLE consulates ( \
-            id              INT(16)         NOT NULL PRIMARY KEY UNIQUE, \
+            id              INTEGER     PRIMARY KEY AUTOINCREMENT, \
             name            VARCHAR(128)    NOT NULL UNIQUE,\
             postal_code     INT(16)         DEFAULT NULL,\
             neighborhood    VARCHAR(32)     DEFAULT NULL,\
@@ -47,10 +47,10 @@ def create_users_table(cursor):
 
     cursor.execute(
         "CREATE TABLE users ( \
-            id              INT(16)         NOT NULL PRIMARY KEY UNIQUE, \
+            id              INTEGER    PRIMARY KEY AUTOINCREMENT, \
             name            VARCHAR(32)     NOT NULL, \
             surname         VARCHAR(32)     NOT NULL, \
-            username        VARCHAR(32)     NOT NULL, \
+            username        VARCHAR(32)     NOT NULL UNIQUE, \
             password        VARCHAR(32)     NOT NULL  \
         )"
     )
