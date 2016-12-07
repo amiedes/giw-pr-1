@@ -4,6 +4,7 @@
 # Python files
 *.pyc
 test.txt
+*/.python-version
 
 # Práctica 2
 # -----------------------------------
