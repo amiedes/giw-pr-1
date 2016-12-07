@@ -5,11 +5,16 @@
 ##
 
 from bottle import *
+from pymongo import *
 
 @get('/find_user')
 def find_user():
     # http://localhost:8080/find_user?username=burgoscarla
-    pass
+    connection = MongoClient('localhost', 27017)
+    db = connection.giw
+    usuarios = db.usuarios
+    user = usuarios.find_one()
+    return template('find_user.tpl', user=user)
 
 
 @get('/find_users')
