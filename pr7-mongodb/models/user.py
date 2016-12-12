@@ -15,6 +15,10 @@ class User:
         self.password = options['password'].encode('utf-8')
         self.name = options['name'].encode('utf-8')
         self.surname = options['surname'].encode('utf-8')
-        self.address = options['address'].encode('utf-8')
-        self.likes = options['likes']
+        self.address = options['address']
+
+        self.likes = []
+        for like in options['likes']:
+            self.likes.append(like.encode('utf-8'))
+            
         self.birthdate = options['birthdate']
