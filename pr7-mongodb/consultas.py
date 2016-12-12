@@ -53,26 +53,12 @@ def find_users():
         matched_users = []
 
         for record in cursor:
-            user = User(record)
-            user.credit_card = CreditCard({
-                'expire_year': record['credit_card']['expire']['year'],
-                'expire_month': record['credit_card']['expire']['month'],
-                'number': record['credit_card']['number']
-            })
-            user.address = Address({
-                'country': record['address']['country'],
-                'zip': record['address']['zip'],
-                'street': record['address']['street'],
-                'num': record['address']['num'],
-            })
-            print "ADDRESS:"
-            print user.address.pretty()
+            user = User.build_from_db_record(record)
             matched_users.append(user)
 
         return template('users_collection.tpl', users = matched_users, matches = len(matched_users))
 
     except InvalidParametersError:
-
         return template('error_template.tpl', message = 'Invalid parameters')
 
 
