@@ -12,6 +12,9 @@ hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
 nuestros resultados ni perjudicar los resultados de los demás.
 """
 
+from app.models.address import Address
+from app.models.credit_card import CreditCard
+
 class User:
 
     def __init__(self, options={}):
@@ -38,3 +41,19 @@ class User:
                 'credit_card': True, 'password': True, 'name': True, 'surname': True,
                 'address': True
                }
+
+    @staticmethod
+    def build_from_db_record(record):
+        new_user = User(record)
+        new_user.credit_card = CreditCard({
+            'expire_year': record['credit_card']['expire']['year'],
+            'expire_month': record['credit_card']['expire']['month'],
+            'number': record['credit_card']['number']
+        })
+        new_user.address = Address({
+            'country': record['address']['country'],
+            'zip': record['address']['zip'],
+            'street': record['address']['street'],
+            'num': record['address']['num'],
+        })
+        return new_user
