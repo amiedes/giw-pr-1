@@ -6,9 +6,10 @@
 
 from bottle import *
 from pymongo import *
-from models.address import Address
-from models.credit_card import CreditCard
-from models.user import User
+from app.models.address import Address
+from app.models.credit_card import CreditCard
+from app.models.user import User
+from app.exceptions.invalid_parameters_error import InvalidParametersError
 
 # http://localhost:8080/find_user?username=burgoscarla
 @get('/find_user')
@@ -29,32 +30,42 @@ def find_user():
 # http://localhost:8080/find_users?name=Luz&food=hotdog
 @get('/find_users')
 def find_users():
+    try:
+        try:
+            for param in request.query:
+                User.valid_parameters()[param]
+        except KeyError:
+            raise InvalidParametersError()
 
-    connection = MongoClient('localhost', 27017)
-    db = connection.giw
-    users = db.usuarios
+        connection = MongoClient('localhost', 27017)
+        db = connection.giw
+        users = db.usuarios
 
-    cursor = users.find(request.query)
-    matched_users = []
+        cursor = users.find(request.query)
+        matched_users = []
 
-    for record in cursor:
-        user = User(record)
-        user.credit_card = CreditCard({
-            'expire_year': record['credit_card']['expire']['year'],
-            'expire_month': record['credit_card']['expire']['month'],
-            'number': record['credit_card']['number']
-        })
-        user.address = Address({
-            'country': record['address']['country'],
-            'zip': record['address']['zip'],
-            'street': record['address']['street'],
-            'num': record['address']['num'],
-        })
-        print "ADDRESS:"
-        print user.address.pretty()
-        matched_users.append(user)
+        for record in cursor:
+            user = User(record)
+            user.credit_card = CreditCard({
+                'expire_year': record['credit_card']['expire']['year'],
+                'expire_month': record['credit_card']['expire']['month'],
+                'number': record['credit_card']['number']
+            })
+            user.address = Address({
+                'country': record['address']['country'],
+                'zip': record['address']['zip'],
+                'street': record['address']['street'],
+                'num': record['address']['num'],
+            })
+            print "ADDRESS:"
+            print user.address.pretty()
+            matched_users.append(user)
 
-    return template('users_collection.tpl', users = matched_users, matches = len(matched_users))
+        return template('users_collection.tpl', users = matched_users, matches = len(matched_users))
+
+    except InvalidParametersError:
+
+        return template('error_template.tpl', message = 'Invalid parameters')
 
 
 @get('/find_users_or')
