@@ -100,10 +100,33 @@ def email_birthdate():
     pass
 
 
+# http://localhost:8080/find_country_likes_limit_sorted?country=Irlanda&likes=movies,animals&limit=4&ord=asc
 @get('/find_country_likes_limit_sorted')
 def find_country_likes_limit_sorted():
-    # http://localhost:8080/find_country_likes_limit_sorted?country=Irlanda&likes=movies,animals&limit=4&ord=asc
-    pass
+
+    connection = MongoClient('localhost', 27017)
+    db = connection.giw
+    users = db.usuarios
+
+    # parse query parameters
+    country = request.query['country']
+    likes = request.query['likes'].split(',')
+    limit = int(request.query['limit'])
+    order = (1 if request.query['ord'] == 'asc' else -1)
+
+    filter_hash = {
+        'address.country': country,
+        'likes': { '$all': likes }
+    }
+
+    cursor = users.find(filter_hash).sort('birthdate', order).limit(limit)
+    matched_users = []
+
+    for record in cursor:
+        user = User.build_from_db_record(record)
+        matched_users.append(user)
+
+    return template('users_collection.tpl', users = matched_users, matches = len(matched_users))
 
 
 if __name__ == "__main__":
