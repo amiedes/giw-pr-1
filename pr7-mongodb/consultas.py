@@ -8,14 +8,17 @@ from bottle import *
 from pymongo import *
 from models.user import User
 
+# http://localhost:8080/find_user?username=burgoscarla
 @get('/find_user')
 def find_user():
-    # http://localhost:8080/find_user?username=burgoscarla
+
     connection = MongoClient('localhost', 27017)
     db = connection.giw
     usuarios = db.usuarios
+
     user_record = usuarios.find({'_id': request.query['username']})
     user = User(user_record[0])
+
     return template('find_user.tpl', user=user)
 
 
