@@ -20,5 +20,13 @@ class User:
         self.likes = []
         for like in options['likes']:
             self.likes.append(like.encode('utf-8'))
-            
+
         self.birthdate = options['birthdate']
+
+    @staticmethod
+    def valid_parameters():
+        return {
+                'id': True, '_id': True, 'email': True, 'webpage': True,
+                'credit_card': True, 'password': True, 'name': True, 'surname': True,
+                'address': True
+               }
