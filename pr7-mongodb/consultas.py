@@ -117,8 +117,22 @@ def find_country():
 @get('/find_email_birthdate')
 def email_birthdate():
     # http://localhost:8080/find_email_birthdate?from=1973-01-01&to=1990-12-31
-    pass
+    connection = MongoClient('localhost', 27017)
+    db = connection.giw
+    users = db.usuarios
 
+    # parse query parameters
+    date_from = request.query['from']
+    date_to = request.query['to']
+    
+    cursor = users.find({'birthdate': {'$gte': date_from, '$lte': date_to}}).sort([('birthdate', 1), ('_id', 1)])
+    matched_users = []
+
+    for record in cursor:
+        user = User.build_from_db_record(record)
+        matched_users.append(user)
+
+    return template('email_birthdate.tpl', users = matched_users, matches = len(matched_users))
 
 # http://localhost:8080/find_country_likes_limit_sorted?country=Irlanda&likes=movies,animals&limit=4&ord=asc
 @get('/find_country_likes_limit_sorted')
