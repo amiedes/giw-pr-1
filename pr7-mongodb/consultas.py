@@ -65,7 +65,41 @@ def find_users():
 @get('/find_users_or')
 def find_users_or():
     # http://localhost:8080/find_users_or?name=Luz&surname=Corral
-    pass
+    try:
+        try:
+            for param in request.query:
+                User.valid_parameters()[param]
+        except KeyError:
+            raise InvalidParametersError()
+
+        connection = MongoClient('localhost', 27017)
+        db = connection.giw
+        users = db.usuarios
+        name_hash = dict()
+        surname_hash = dict()
+        birthdate_hash = dict()
+        name_hash = {
+                'name': request.query['name']
+        }
+        surname_hash = {
+                'surname': request.query['surname']
+        }
+        birthdate_hash = {
+                'birthdate': request.query['birthdate']
+        }
+        
+        
+        cursor = users.find({'$or':[name_hash, surname_hash, birthdate_hash]})
+        #cursor = users.find({$or:[{name: 'Jan'}, {surname: 'jan'}]})
+        matched_users = []
+        for record in cursor:
+            user = User.build_from_db_record(record)
+            matched_users.append(user)
+
+        return template('users_collection.tpl', users = matched_users, matches = len(matched_users))
+        
+    except InvalidParametersError:
+        return template('error_template.tpl', message = 'Invalid parameters')
 
 
 @get('/find_like')

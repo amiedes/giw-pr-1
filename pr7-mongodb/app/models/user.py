@@ -39,7 +39,7 @@ class User:
         return {
                 'id': True, '_id': True, 'email': True, 'webpage': True,
                 'credit_card': True, 'password': True, 'name': True, 'surname': True,
-                'address': True
+                'address': True, 'birthdate':True
                }
 
     @staticmethod

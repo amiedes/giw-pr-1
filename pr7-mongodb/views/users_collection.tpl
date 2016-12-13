@@ -15,7 +15,7 @@
           <li><strong>Encrypted password</strong>: {{ user.password }}</li>
           <li><strong>Name</strong>: {{ user.name }}</li>
           <li><strong>Surname</strong>: {{ user.surname }}</li>
-          <li><strong>Address</strong>: {{ user.address.pretty() }}</li>
+          <li><strong>Address</strong>: {{ user.address.street }}</li>
           <li><strong>Likes</strong>:
             <ul>
               % for like in user.likes:
