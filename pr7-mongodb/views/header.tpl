@@ -1,7 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
+
 <head>
-<!--Import materialize.css-->
+    <!--Import materialize.css-->
       
       <link type="text/css" rel="stylesheet" href="materialize.min.css"  media="screen,projection"/>
 
@@ -13,22 +12,13 @@
    <!--Import jQuery before materialize.js-->
       <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
       <script type="text/javascript" src="materialize.min.js"></script>
+ 
 </head>
-
-<body>
-<div class="row">
-        <div class="col s12 m12  l12 ">
-          <div class="card darken-1">
-            <div class="card-content blue-grey darken-2 white-text">
-              <span class="card-title"> ERROR </span><br/>
+     
+<header>
+    <nav class="top-nav row teal lighten-2 white-text">
+            <div class="nav-fixed valign-wrapper">
+                <h5 class="bold flow-text "> Practica 7 MongoDB-GIW (Ejercicio {{number}}) </h5>
             </div>
-                          
-            <div class="card-content blue-grey darkenen-1 white-text">
-               <span>{{ message }}</span>
-            </div>           
-          </div>
-        </div>
-      </div>
-            
-</body>
-</html>
+    </nav>
+ </header>
