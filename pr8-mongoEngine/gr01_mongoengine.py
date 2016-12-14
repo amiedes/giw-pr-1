@@ -9,7 +9,8 @@ from mongoengine import Connection, connect
 
 connection=Connection()
 connection.drop_database('giw mongoengine')
-connection.close()
+#connection.close()
 
 db=connection['giw mongoengine']
 db=connect('giw mongoengine')
+
