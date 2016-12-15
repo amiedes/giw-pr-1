@@ -26,4 +26,3 @@ class Usuario(Document):
     fecha_ultimo_acceso=ComplexDateTimeField()
     tarjetas_credito=ListField(EmbeddedDocumentField(Tarjeta_Credito))
     pedidos=ListField(ReferenceField(Pedido,reverse_delete_rule=CASCADE))
-    
