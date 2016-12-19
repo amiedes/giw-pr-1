@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Dec 14 14:38:00 2016
+Autores: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+Asignatura: Gestión de Información en la Web (GIW) - Práctica 7 - Grupo 1
 
-@author: dany
+Daniel Reyes, Ania Pietrzak y Alberto Miedes declaramos que esta solución es
+fruto exclusivamente de nuestro trabajo personal. No hemos sido ayudados por
+ninguna otra persona ni hemos obtenido la solución de fuentes externas, y
+tampoco hemos compartido nuestra solución con nadie. Declaramos además que no
+hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
+nuestros resultados ni perjudicar los resultados de los demás.
 """
 
-#'''
 from mongoengine import connect,Document,StringField,ComplexDateTimeField\
                         ,ListField,EmbeddedDocumentField,ReferenceField\
                         ,EmbeddedDocument,CASCADE,ValidationError
@@ -50,17 +55,19 @@ class Usuario(Document):
     fecha_ultimo_acceso=ComplexDateTimeField()
     tarjetas_credito=ListField(EmbeddedDocumentField(Tarjeta_Credito))
     pedidos=ListField(ReferenceField(Pedido,reverse_delete_rule=CASCADE))
-
+    
+    #verificacion de DNI o NIE:
     def clean(self):
         letras=['T','R','W','A','G','M','Y','F','P','D','X','B',\
                 'N','J','Z','S','Q','V','H','L','C','K','E' ]
         dni=self.dni.upper()
         id_number=0
         offset=0
+        last_letter=dni[len(dni)-1]
         # calcular offset en caso de NIE
-        if(self.dni[0].isalpha() and self.dni[0]!='X'):
+        if(dni[0].isalpha() and dni[0]!='X'):
             offset=offset+10000000
-            if(self.dni[0]=='Z'):
+            if(dni[0]=='Z'):
                 offset=offset+10000000
         else:
             offset=0
@@ -68,7 +75,7 @@ class Usuario(Document):
         # obtener la cifra para calcular el digito de control    
         dni=''
         i=0
-        for i in range(len(dni)):
+        for i in range(len(self.dni)):
             if(self.dni[i].isalpha()):
                 continue
             else:
@@ -77,8 +84,6 @@ class Usuario(Document):
         id_number=id_number+offset
 
         #calculo y comprobacion
-        dni=self.dni.upper()
-        last_letter=dni[len(dni)-1]
         correct_index=id_number%23
         correct_letter=letras[correct_index] 
         if(correct_letter != last_letter):
