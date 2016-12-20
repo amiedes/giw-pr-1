@@ -14,28 +14,29 @@ nuestros resultados ni perjudicar los resultados de los demás.
 
 
 class User(Document):
-    # er: 1 digito o letra('X','Y','Z') + 7 digitos +
-    #     1 letra mayuscula o minuscula
-    dni = StringField(primary_key=True,
-                      regex='(\d{8}|[X-Z]\d{7})[A-Z]$|'
-                      + '(\d{8}|[x-z]\d{7})[a-z]$')
-    nombre = StringField(required=True)
-    primer_apellido = StringField(required=True)
-    segundo_apellido = StringField()
 
-    # er: Rangos de fecha [1900-2017]-[01-12]-[01-31]
-    fecha_nacimiento = StringField(required=True,
-                                   regex='(19\d{2}-|20[0-1][0-7]-)'
-                                   + '(0[1-9]-|1[0-2]-)'
-                                   + '(0[1-9]$|(1|2)\d{1}$|3[0-1]$)'
-                                   )
-    fecha_ultimo_acceso = ComplexDateTimeField()
-    tarjetas_credito = ListField(EmbeddedDocumentField(Tarjeta_Credito))
-    pedidos = ListField(ReferenceField(Pedido, reverse_delete_rule=PULL))
-    # creo que esta linea hace el ejercicio 7 REVISAR
+    # 1 digit or letter (X,Y,Z) + 7 digits + 1 letter
+    dni = StringField(primary_key=True, regex='^(\d|[X-Z]|[x-z])\d{7}([A-Z]|[a-z])$')
 
-  #---- verificacion de DNI o NIE: ----
-    def clean(self):
+    name = StringField(required=True)
+
+    first_surname = StringField(required=True)
+
+    second_surname = StringField()
+
+    # Format: 'AAAA-MM-DD', truncate 'time' later
+    birthdate = DateTimeField(required=True)
+
+    # Last 10 access to system
+    last_accesses = ListField(ComplexDateTimeField())
+
+    # Credit card list
+    credit_cards = ListField(EmbeddedDocumentField(CreditCard))
+
+    # References to orders list
+    orders = ListField(ReferenceField(Order, reverse_delete_rule=PULL))
+
+    def verify_dni_nie(self):
         letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B',
                   'N', 'J', 'Z', 'S', 'Q', 'V', 'H', 'L', 'C', 'K', 'E']
         dni = self.dni.upper()
