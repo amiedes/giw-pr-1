@@ -13,18 +13,20 @@ hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
 nuestros resultados ni perjudicar los resultados de los demás.
 """
 
+from mongoengine import EmbeddedDocument
 
 class CreditCard(EmbeddedDocument):
-    propietario = StringField(required=True)
 
-    # er: 16 digitos
-    numero = StringField(regex='\d{16}$', required=True)
+    owner = StringField(required=True)
 
-    # er: c/mes debe es de la forma "0X" o bien "1Y" con rango [01-12]
-    mes_caducidad = StringField(regex='0[1-9]$|1[0-2]$', required=True)
+    # 16 digits long
+    number = StringField(required=True, regex='^\d{16}$')
 
-    # er: años definidos desde 17 hasta 29
-    anio_caducidad = StringField(regex='1[7-9]$|2[0-9]$', required=True)
+    # 2 digits long, range: [01-12]
+    expiry_month = StringField(required=True, regex='^(0[1-9]|1[0-2])$')
 
-    # er: 3 digitos
-    cvv = StringField(max_length=3, regex='\d{3}$', required=True)
+    # 2 digits long
+    expiry_year = StringField(required=True, regex='^\d{2}$')
+
+    # 3 digits long
+    cvv = StringField(required=True, regex='^\d{3}$')
