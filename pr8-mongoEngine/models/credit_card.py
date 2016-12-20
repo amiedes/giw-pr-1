@@ -13,8 +13,8 @@ hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
 nuestros resultados ni perjudicar los resultados de los demás.
 """
 
-from mongoengine import EmbeddedDocument
 
+from mongoengine import *
 
 class CreditCard(EmbeddedDocument):
 

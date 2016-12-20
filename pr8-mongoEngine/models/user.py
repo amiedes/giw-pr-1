@@ -13,6 +13,8 @@ nuestros resultados ni perjudicar los resultados de los demás.
 """
 
 
+from mongoengine import *
+
 class User(Document):
 
     # 1 digit or letter (X,Y,Z) + 7 digits + 1 letter

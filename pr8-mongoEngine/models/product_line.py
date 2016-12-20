@@ -13,6 +13,8 @@ nuestros resultados ni perjudicar los resultados de los demás.
 """
 
 
+from mongoengine import *
+
 class ProductLine(EmbeddedDocument):
 
     number_of_products = IntField(required=True, min_value=1, max_value=200)

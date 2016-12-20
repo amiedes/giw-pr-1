@@ -13,6 +13,8 @@ nuestros resultados ni perjudicar los resultados de los demás.
 """
 
 
+from mongoengine import *
+
 class Product(Document):
     # er: numero de 13 digitos
     codigo = StringField(primary_key=True, regex='\d{13}$')

@@ -13,6 +13,8 @@ nuestros resultados ni perjudicar los resultados de los demás.
 """
 
 
+from mongoengine import *
+
 class Order(Document):
 
     total_price = DecimalField(required=True, precision=2)
