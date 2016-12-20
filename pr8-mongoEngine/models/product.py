@@ -16,21 +16,23 @@ nuestros resultados ni perjudicar los resultados de los demás.
 from mongoengine import *
 
 class Product(Document):
-    # er: numero de 13 digitos
-    codigo = StringField(primary_key=True, regex='\d{13}$')
 
-    nombre = StringField(required=True)
+    # 13 digits, TODO: Format: EAN-13
+    barcode = StringField(primary_key=True, regex='^\d{13}$')
 
-    # er: combinacion de digitos --> Natural
-    categoria = StringField(required=True, regex='\d*$')
+    name = StringField(required=True)
 
-    # er: combinacion de digitos --> Natural
-    subcategoria = ListField(StringField(), regex='\d*$')
+    # Categoría principal
+    category = IntField(required=True, min_value=1)
+
+    # List of secondary categories
+    subcategories = ListField(IntField(min_value=1))
 
     def clean(self):
+        # TODO: esto está mal, mirar como se comprueba que esté presente
         # comprobar si tiene lista de categorias secundarias
-        if len(self.subcategoria) > 0:
+        if len(self.subcategories.size) > 0:
             # anadir categoria como primer elemento de subcategoria si todavia
             # no aparace
-            if self.subcategoria[0] != self.categoria:
-                self.subcategoria.append(0, self.categoria)
+            if self.subcategories[0] != self.category:
+                self.subcategories.append(0, self.category)
