@@ -13,8 +13,18 @@ hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
 nuestros resultados ni perjudicar los resultados de los demás.
 """
 
-from mongoengine import connect,Document,StringField,ComplexDateTimeField\
-                        ,ListField,EmbeddedDocumentField,ReferenceField\
-                        ,EmbeddedDocument,PULL,ValidationError
 
-connect('giw mongoengine')
+class CreditCard(EmbeddedDocument):
+    propietario = StringField(required=True)
+
+    # er: 16 digitos
+    numero = StringField(regex='\d{16}$', required=True)
+
+    # er: c/mes debe es de la forma "0X" o bien "1Y" con rango [01-12]
+    mes_caducidad = StringField(regex='0[1-9]$|1[0-2]$', required=True)
+
+    # er: años definidos desde 17 hasta 29
+    anio_caducidad = StringField(regex='1[7-9]$|2[0-9]$', required=True)
+
+    # er: 3 digitos
+    cvv = StringField(max_length=3, regex='\d{3}$', required=True)
