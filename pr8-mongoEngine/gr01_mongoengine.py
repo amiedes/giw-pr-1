@@ -31,6 +31,12 @@ class Producto(Document):
     # er: combinacion de digitos --> Natural
     subcategoria=ListField(StringField(),regex='\d*$')   
     
+    def clean(self):
+        #comprobar si tiene lista de categorias secundarias
+        if len(self.subcategoria) > 0:
+            #anadir categoria como primer elemento de subcategoria si todavia no aparace
+            if self.subcategoria[0] != self.categoria:
+                self.subcategoria.append(0, self.categoria)
     
     
 #---------------LINEAS DE PEDIDO-----------------------------------    
