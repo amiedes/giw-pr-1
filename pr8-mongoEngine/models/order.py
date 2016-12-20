@@ -14,14 +14,20 @@ nuestros resultados ni perjudicar los resultados de los demás.
 
 
 class Order(Document):
-    # er: float con dos cifras decimales:
-    total = StringField(required=True, regex='\d*\.\d{2}$')
-    fecha = ComplexDateTimeField(required=True)
-    lineas_pedido = ListField(EmbeddedDocumentField(
-        Linea_Pedido, required=True), required=True)
 
+    total_price = DecimalField(required=True, precision=2)
+
+    date = ComplexDateTimeField(required=True)
+
+    # Product line lists
+    product_lines = ListField(
+        EmbeddedDocumentField(Linea_Pedido, required=True),
+        required=True
+    )
+
+    # TODO: pending to refactor this method
     def clean(self):
-        total = float(self.total)
+        total = float(self.total_price)
         total_from_lines = 0.00
         i = 0
         for i in range(len(self.lineas_pedido)):
