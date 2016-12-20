@@ -15,6 +15,7 @@ nuestros resultados ni perjudicar los resultados de los demás.
 
 from mongoengine import EmbeddedDocument
 
+
 class CreditCard(EmbeddedDocument):
 
     owner = StringField(required=True)
