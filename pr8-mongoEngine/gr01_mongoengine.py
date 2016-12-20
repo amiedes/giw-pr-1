@@ -14,31 +14,73 @@ nuestros resultados ni perjudicar los resultados de los demás.
 
 from mongoengine import connect,Document,StringField,ComplexDateTimeField\
                         ,ListField,EmbeddedDocumentField,ReferenceField\
-                        ,EmbeddedDocument,CASCADE,ValidationError
+                        ,EmbeddedDocument,PULL,ValidationError
 
 connect('giw mongoengine')
 
+#-----------------PRODUCTOS---------------------------------------
+class Producto(Document):
+    # er: numero de 13 digitos
+    codigo=StringField(primary_key=True,regex='\d{13}$')
+    
+    nombre=StringField(required=True)
+    
+    # er: combinacion de digitos --> Natural
+    categoria=StringField(required=True,regex='\d*$')
+    
+    # er: combinacion de digitos --> Natural
+    subcategoria=ListField(StringField(),regex='\d*$')   
+    
+    
+    
+#---------------LINEAS DE PEDIDO-----------------------------------    
+class Linea_Pedido(EmbeddedDocument):
+    # er: combinacion de digitos --> Natural
+    cantidad_productos=StringField(required=True,regex='\d*$')
+    
+    # er: float con dos cifras decimales
+    precio_unidad=StringField(required=True,regex='\d*\.\d{2}$')
+    nombre_producto=StringField(required=True)
+    
+    # er: float con dos cifras decimales
+    precio_total=StringField(required=True,regex='\d*\.\d{2}$')
+    producto=ReferenceField(Producto)    
+    
+    
+    
+#--------------------------PEDIDOS---------------------------------    
+class Pedido(Document):
+    # er: float con dos cifras decimales:
+    total=StringField(required=True,regex='\d*\.\d{2}$')
+    fecha=ComplexDateTimeField(required=True)
+    lineas_pedido=ListField(EmbeddedDocumentField(Linea_Pedido,required=True)\
+                            ,required=True)
 
+
+    
+#------------------------TARJETA DE CREDITO------------------------    
 class Tarjeta_Credito(EmbeddedDocument):
     propietario=StringField(required=True)
+    
+    # er: 16 digitos
     numero=StringField(regex='\d{16}$',required=True)
     
-    #cada mes debe ser de la forma "0X" o bien "1Y" con rango [01-12]
+    #er: c/mes debe es de la forma "0X" o bien "1Y" con rango [01-12]
     mes_caducidad=StringField(regex='0[1-9]$|1[0-2]$',required=True)
     
-    #años definidos desde 17 hasta 29
+    # er: años definidos desde 17 hasta 29
     anio_caducidad=StringField(regex='1[7-9]$|2[0-9]$',required=True)
+    
+    # er: 3 digitos
     cvv=StringField(max_length=3,regex='\d{3}$',required=True)
-    
 
-    
-class Pedido(Document):
-    lop=StringField(db_field='dni',primary_key=True)# only to test
 
 
     
+#---------------------------USUARIOS------------------------------ 
 class Usuario(Document):
-    # 1 digito o letra('X','Y','Z') + 7 digitos + 1 letra mayuscula o minuscula
+    # er: 1 digito o letra('X','Y','Z') + 7 digitos + 
+    #     1 letra mayuscula o minuscula
     dni = StringField(primary_key=True,\
                       regex='(\d{8}|[X-Z]\d{7})[A-Z]$|'\
                           + '(\d{8}|[x-z]\d{7})[a-z]$')
@@ -46,7 +88,7 @@ class Usuario(Document):
     primer_apellido=StringField(required=True)
     segundo_apellido=StringField()
     
-    # Rangos de fecha: [1900-2017]-[01-12]-[01-31] 
+    # er: Rangos de fecha [1900-2017]-[01-12]-[01-31] 
     fecha_nacimiento=StringField(required=True,\
                                  regex='(19\d{2}-|20[0-1][0-7]-)'\
                                  + '(0[1-9]-|1[0-2]-)'\
@@ -54,9 +96,9 @@ class Usuario(Document):
                                  )
     fecha_ultimo_acceso=ComplexDateTimeField()
     tarjetas_credito=ListField(EmbeddedDocumentField(Tarjeta_Credito))
-    pedidos=ListField(ReferenceField(Pedido,reverse_delete_rule=CASCADE))
+    pedidos=ListField(ReferenceField(Pedido,reverse_delete_rule=PULL))
     
-    #verificacion de DNI o NIE:
+  #---- verificacion de DNI o NIE: ----
     def clean(self):
         letras=['T','R','W','A','G','M','Y','F','P','D','X','B',\
                 'N','J','Z','S','Q','V','H','L','C','K','E' ]
@@ -88,3 +130,4 @@ class Usuario(Document):
         correct_letter=letras[correct_index] 
         if(correct_letter != last_letter):
             raise ValidationError("El DNI o NIE introducido No Existe")
+#------------------------------------------------------------------------
