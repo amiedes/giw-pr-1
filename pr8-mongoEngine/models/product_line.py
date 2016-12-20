@@ -14,28 +14,31 @@ nuestros resultados ni perjudicar los resultados de los demás.
 
 
 class ProductLine(EmbeddedDocument):
-    # er: combinacion de digitos --> Natural
-    cantidad_productos = StringField(required=True, regex='\d*$')
 
-    # er: float con dos cifras decimales
-    precio_unidad = StringField(required=True, regex='\d*\.\d{2}$')
-    nombre_producto = StringField(required=True)
+    number_of_products = IntField(required=True, min_value=1, max_value=200)
 
-    # er: float con dos cifras decimales
-    precio_total = StringField(required=True, regex='\d*\.\d{2}$')
-    producto = ReferenceField(Producto)
+    price_per_unit = DecimalField(required=True, precision=2)
+
+    product_name = StringField(required=True)
+
+    # Total price for this ProductLine
+    total_price = DecimalField(required=True, precision=2)
+
+    # Referencia al producto. Required.
+    product = ReferenceField(Product)
 
     def clean(self):
         # comprobar nombre de producto
-        nombre = self.nombre_producto
-        nombre_real = self.producto.nombre
-        if(nombre_real != nombre):
+        name = self.product_name
+        real_name = self.product.name
+        if(real_name != name):
             raise ValidationError("ERROR: Nombre de Producto Erroneo")
 
         # comprobar precio total de linea
-        total = float(self.precio_total)
-        cantidad = int(self.cantidad_productos)
-        precio_unidad = float(self.precio_unidad)
-        total_calculado = cantidad * precio_unidad
-        if(total != total_calculado):
+        total_price = float(self.total_price)
+        number_of_products = int(self.number_of_products)
+        price_per_unit = float(self.price_per_unit)
+
+        calculated_total_price = number_of_products * price_per_unit
+        if(total_price != calculated_total_price):
             raise ValidationError("ERROR: Precio de linea Mal Calculado")
