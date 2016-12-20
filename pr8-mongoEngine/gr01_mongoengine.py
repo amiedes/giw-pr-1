@@ -46,6 +46,21 @@ class Linea_Pedido(EmbeddedDocument):
     precio_total=StringField(required=True,regex='\d*\.\d{2}$')
     producto=ReferenceField(Producto)    
     
+    def clean(self):
+        #comprobar nombre de producto
+        nombre=self.nombre_producto
+        nombre_real=self.producto.nombre
+        if(nombre_real != nombre):
+            raise ValidationError("ERROR: Nombre de Producto Erroneo")
+        
+        #comprobar precio total de linea
+        total=float(self.precio_total)
+        cantidad=int(self.cantidad_productos)
+        precio_unidad=float(self.precio_unidad)
+        total_calculado=cantidad*precio_unidad    
+        if(total != total_calculado):    
+            raise ValidationError("ERROR: Precio de linea Mal Calculado")
+
     
     
 #--------------------------PEDIDOS---------------------------------    
@@ -55,8 +70,19 @@ class Pedido(Document):
     fecha=ComplexDateTimeField(required=True)
     lineas_pedido=ListField(EmbeddedDocumentField(Linea_Pedido,required=True)\
                             ,required=True)
+    def clean(self):
+        total=float(self.total)
+        total_from_lines=0.00
+        i=0
+        for i in range(len(self.lineas_pedido)):
+            total_linea=float(self.lineas_pedido[i].precio_total)
+            total_from_lines=total_from_lines+total_linea
+            
+        if(total != total_from_lines):    
+            raise ValidationError("ERROR: No concuerdan los totales")
 
-
+            
+            
     
 #------------------------TARJETA DE CREDITO------------------------    
 class Tarjeta_Credito(EmbeddedDocument):
@@ -97,6 +123,7 @@ class Usuario(Document):
     fecha_ultimo_acceso=ComplexDateTimeField()
     tarjetas_credito=ListField(EmbeddedDocumentField(Tarjeta_Credito))
     pedidos=ListField(ReferenceField(Pedido,reverse_delete_rule=PULL))
+    #creo que esta linea hace el ejercicio 7 REVISAR
     
   #---- verificacion de DNI o NIE: ----
     def clean(self):
