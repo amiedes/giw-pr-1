@@ -2,7 +2,7 @@
 
 """
 Autores: Daniel Reyes, Ania Pietrzak, Alberto Miedes
-Asignatura: Gestión de Información en la Web (GIW) - Práctica 7 - Grupo 1
+Asignatura: Gestión de Información en la Web (GIW) - Práctica 8 - Grupo 1
 
 Daniel Reyes, Ania Pietrzak y Alberto Miedes declaramos que esta solución es
 fruto exclusivamente de nuestro trabajo personal. No hemos sido ayudados por
