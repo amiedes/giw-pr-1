@@ -12,7 +12,6 @@ hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
 nuestros resultados ni perjudicar los resultados de los demás.
 """
 
-
 from mongoengine import *
 
 class Product(Document):
@@ -29,10 +28,12 @@ class Product(Document):
     subcategories = ListField(IntField(min_value=1))
 
     def clean(self):
-        # TODO: esto está mal, mirar como se comprueba que esté presente
-        # comprobar si tiene lista de categorias secundarias
-        if len(self.subcategories.size) > 0:
-            # anadir categoria como primer elemento de subcategoria si todavia
-            # no aparace
-            if self.subcategories[0] != self.category:
+
+        check_subcategories()
+
+    def check_subcategories(self):
+
+        if (self.subcategories != None) && len(self.subcategories) > 0:
+            # add category as first element if yet not in subcategories
+            if self.subcategories.first != self.category:
                 self.subcategories.append(0, self.category)
