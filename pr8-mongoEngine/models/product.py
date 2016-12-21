@@ -16,7 +16,7 @@ from mongoengine import *
 
 class Product(Document):
 
-    # 13 digits, TODO: Format: EAN-13
+    # 13 digits
     barcode = StringField(primary_key=True, regex='^\d{13}$')
 
     name = StringField(required=True)
@@ -30,6 +30,7 @@ class Product(Document):
     def clean(self):
 
         check_subcategories()
+        check_barcode_checksum()
 
     def check_subcategories(self):
 
@@ -37,3 +38,17 @@ class Product(Document):
             # add category as first element if yet not in subcategories
             if self.subcategories.first != self.category:
                 self.subcategories.append(0, self.category)
+
+    def check_barcode_checksum(self):
+
+        calculated_checksum = 0
+        for idx, digit in enumerate(barcode):
+            if idx == 12:
+                checksum_digit = int(digit)
+            elif idx % 2 == 0:
+                calculated_checksum += 3 * int(digit)
+            else:
+                calculated_checksum += 1 * int(digit)
+
+        if calculated_checksum != checksum_digit:
+            raise ValidationError("Error in checksum")
