@@ -30,7 +30,7 @@ class Producto(Document):
 
     def clean(self):
         # comprobar si tiene lista de categorias secundarias
-        if len(self.subcategoria) > 0:
+        if (self.subcategoria != None) and len(self.subcategoria) > 0:
             # anadir categoria como primer elemento de subcategoria si todavia
             # no aparace
             if self.subcategoria[0] != self.categoria:
@@ -107,19 +107,19 @@ class Tarjeta_Credito(EmbeddedDocument):
 class Usuario(Document):
     # er: 1 digito o letra('X','Y','Z') + 7 digitos +
     #     1 letra mayuscula o minuscula
-    dni = StringField(primary_key=True,
-                      regex='(\d{8}|[X-Z]\d{7})[A-Z]$|'
-                      + '(\d{8}|[x-z]\d{7})[a-z]$')
+    dni = StringField(
+        primary_key=True,
+        regex='(\d{8}|[X-Z]\d{7})[A-Z]$|' + '(\d{8}|[x-z]\d{7})[a-z]$'
+    )
     nombre = StringField(required=True)
     primer_apellido = StringField(required=True)
     segundo_apellido = StringField()
 
     # er: Rangos de fecha [1900-2017]-[01-12]-[01-31]
-    fecha_nacimiento = StringField(required=True,
-                                   regex='(19\d{2}-|20[0-1][0-7]-)'
-                                   + '(0[1-9]-|1[0-2]-)'
-                                   + '(0[1-9]$|(1|2)\d{1}$|3[0-1]$)'
-                                   )
+    fecha_nacimiento = StringField(
+        required=True,
+        regex='(19\d{2}-|20[0-1][0-7]-)' + '(0[1-9]-|1[0-2]-)' + '(0[1-9]$|(1|2)\d{1}$|3[0-1]$)'
+    )
     fecha_ultimo_acceso = ComplexDateTimeField()
     tarjetas_credito = ListField(EmbeddedDocumentField(Tarjeta_Credito))
     pedidos = ListField(ReferenceField(Pedido, reverse_delete_rule=PULL))
