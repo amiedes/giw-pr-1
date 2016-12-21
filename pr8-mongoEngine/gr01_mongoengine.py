@@ -159,4 +159,15 @@ class Usuario(Document):
             raise ValidationError("El DNI o NIE introducido No Existe")
 #------------------------------------------------------------------------
 
+def insertar():
+
+    alberto = Usuario(
+        dni = '76664938G',
+        nombre = 'Alberto',
+        primer_apellido = 'Miedes',
+        fecha_nacimiento = '1994-12-30'
+    )
+    alberto.save()
+
 connect('giw_mongoengine')
+insertar()
