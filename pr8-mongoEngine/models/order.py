@@ -13,6 +13,7 @@ nuestros resultados ni perjudicar los resultados de los demás.
 """
 
 from mongoengine import *
+from models.product_line import ProductLine
 
 class Order(Document):
 
@@ -22,7 +23,7 @@ class Order(Document):
 
     # Product line lists
     product_lines = ListField(
-        EmbeddedDocumentField(Linea_Pedido, required=True),
+        EmbeddedDocumentField(ProductLine, required=True),
         required=True
     )
 

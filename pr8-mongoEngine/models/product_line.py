@@ -13,6 +13,7 @@ nuestros resultados ni perjudicar los resultados de los demás.
 """
 
 from mongoengine import *
+from models.product import Product
 
 class ProductLine(EmbeddedDocument):
 

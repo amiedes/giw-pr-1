@@ -13,6 +13,8 @@ nuestros resultados ni perjudicar los resultados de los demás.
 """
 
 from mongoengine import *
+from models.credit_card import CreditCard
+from models.order import Order
 
 class User(Document):
 
