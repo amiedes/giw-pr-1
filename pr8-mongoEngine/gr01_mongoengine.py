@@ -16,8 +16,6 @@ from mongoengine import connect,Document,StringField,ComplexDateTimeField\
                         ,ListField,EmbeddedDocumentField,ReferenceField\
                         ,EmbeddedDocument,PULL,ValidationError
 
-connect('giw mongoengine')
-
 #-----------------PRODUCTOS---------------------------------------
 class Producto(Document):
     # er: numero de 13 digitos
@@ -31,6 +29,38 @@ class Producto(Document):
     # er: combinacion de digitos --> Natural
     subcategoria=ListField(StringField(),regex='\d*$')   
     
+    def clean(self):
+    #comprobar el EAN 13
+        #1 revertir el codigo de 12 primeros
+        ean=self.codigo
+        index=len(ean)-1 #solo 12 de los 13 digitos
+        reverse=[] 
+        while(index > 0):
+            index=index-1
+            reverse.append(ean[index])
+        #2 separacion en sumas
+        pares=0
+        impares=0
+        for i=0 in range(len(reverse)):
+            if(i%2 == 0):
+                pares=pares+int(reverse[i])
+            else:
+                impares=impares+int(reverse[i])
+        total=pares+(impares*3)
+        decena_sig=round((total+5)/10)*10
+        dig_control=decena_sig - total
+        #comparacion
+        origin_code=int(ean[len(ean)-1])
+        if(origin_code != dig_control):
+            raise ValidationError("ERROR: EAN mal definido")
+ 
+        # comprobar si tiene lista de categorias secundarias
+        if (self.subcategoria != None) and len(self.subcategoria) > 0:
+            # anadir categoria como primer elemento de subcategoria si todavia
+            # no aparace
+            if self.subcategoria[0] != self.categoria:
+                raise ValidationError("ERROR: Problema de 1ra Categoria")     
+
     
     
 #---------------LINEAS DE PEDIDO-----------------------------------    
@@ -123,7 +153,7 @@ class Usuario(Document):
     fecha_ultimo_acceso=ComplexDateTimeField()
     tarjetas_credito=ListField(EmbeddedDocumentField(Tarjeta_Credito))
     pedidos=ListField(ReferenceField(Pedido,reverse_delete_rule=PULL))
-    #creo que esta linea hace el ejercicio 7 REVISAR
+
     
   #---- verificacion de DNI o NIE: ----
     def clean(self):
@@ -158,3 +188,15 @@ class Usuario(Document):
         if(correct_letter != last_letter):
             raise ValidationError("El DNI o NIE introducido No Existe")
 #------------------------------------------------------------------------
+def insertar():
+
+    alberto = Usuario(
+        dni = '76664938G',
+        nombre = 'Alberto',
+        primer_apellido = 'Miedes',
+        fecha_nacimiento = '1994-12-30'
+    )
+    alberto.save()
+
+connect('giw_mongoengine')
+insertar()
