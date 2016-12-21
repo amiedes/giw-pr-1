@@ -27,14 +27,15 @@ class Order(Document):
         required=True
     )
 
-    # TODO: pending to refactor this method
     def clean(self):
-        total = float(self.total_price)
-        total_from_lines = 0.00
-        i = 0
-        for i in range(len(self.lineas_pedido)):
-            total_linea = float(self.lineas_pedido[i].precio_total)
-            total_from_lines = total_from_lines + total_linea
+        check_total_price()
 
-        if(total != total_from_lines):
-            raise ValidationError("ERROR: No concuerdan los totales")
+    def check_total_price(self):
+        total_price = float(self.total_price)
+        calculated_total_price = 0.00
+
+        for product_line in self.product_lines:
+            calculated_total_price += product_line.total_price
+
+        if(total_price != calculated_total_price):
+            raise ValidationError("Order total_price is not correctly calculated")
