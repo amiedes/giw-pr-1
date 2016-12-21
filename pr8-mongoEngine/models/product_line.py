@@ -12,7 +12,6 @@ hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
 nuestros resultados ni perjudicar los resultados de los demás.
 """
 
-
 from mongoengine import *
 
 class ProductLine(EmbeddedDocument):
@@ -30,17 +29,18 @@ class ProductLine(EmbeddedDocument):
     product = ReferenceField(Product)
 
     def clean(self):
-        # comprobar nombre de producto
-        name = self.product_name
-        real_name = self.product.name
-        if(real_name != name):
-            raise ValidationError("ERROR: Nombre de Producto Erroneo")
 
-        # comprobar precio total de linea
-        total_price = float(self.total_price)
-        number_of_products = int(self.number_of_products)
-        price_per_unit = float(self.price_per_unit)
+        check_total_price()
+        check_product_name()
 
-        calculated_total_price = number_of_products * price_per_unit
-        if(total_price != calculated_total_price):
+    def check_total_price(self):
+
+        calculated_total_price = self.number_of_products * self.price_per_unit
+
+        if(self.total_price != calculated_total_price):
             raise ValidationError("ERROR: Precio de linea Mal Calculado")
+
+    def check_product_name(self):
+
+        if(self.product_name != self.product.name):
+            raise ValidationError("ERROR: Nombre de Producto Erroneo")
