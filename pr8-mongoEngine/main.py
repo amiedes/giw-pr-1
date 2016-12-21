@@ -20,4 +20,15 @@ from models.product_line import ProductLine
 from models.product import Product
 from models.user import User
 
-connect('giw mongoengine')
+def insertar():
+
+    alberto = User(
+        dni = '76664938G',
+        name = 'Alberto',
+        first_surname = 'Miedes',
+        birthdate = '1994-12-30'
+    )
+    alberto.save()
+
+connect('giw_mongoengine')
+insertar()
