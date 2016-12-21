@@ -40,7 +40,7 @@ class User(Document):
     orders = ListField(ReferenceField(Order, reverse_delete_rule=PULL))
 
     def clean(self):
-        verify_dni_nie()
+        self.verify_dni_nie()
 
     def verify_dni_nie(self):
         letras = ['T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B',

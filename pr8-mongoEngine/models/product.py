@@ -34,7 +34,7 @@ class Product(Document):
 
     def check_subcategories(self):
 
-        if (self.subcategories != None) && len(self.subcategories) > 0:
+        if (self.subcategories != None) and len(self.subcategories) > 0:
             # add category as first element if yet not in subcategories
             if self.subcategories.first != self.category:
                 self.subcategories.append(0, self.category)
