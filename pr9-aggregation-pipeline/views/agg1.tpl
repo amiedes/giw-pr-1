@@ -22,6 +22,7 @@
         % end
       </tbody>
     </table>
+    <p>Número de resultados: {{len(top_countries)}}</p>
   </div>
 </body>
 
