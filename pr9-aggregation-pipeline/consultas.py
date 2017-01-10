@@ -36,7 +36,28 @@ def agg1():
 @get('/products')
 # http://localhost:8080/products?min=2.34
 def agg2():
-    pass
+
+    connection = MongoClient('localhost', 27017)
+    db = connection.giw
+
+    min_price = request.query['min']
+
+    cursor = db['pedidos'].aggregate(
+        [
+            { '$unwind': '$lineas' },
+            { '$match': { "lineas.precio": { '$gt': float(min_price) } } },
+            { '$group': { '_id': '$lineas.nombre', 'count': { '$sum': 1 }, 'precio': { '$first': '$lineas.precio' } } },
+            { '$project': { '_id': 0, 'nombre_producto': '$_id', 'num_ventas': '$count', 'precio_unitario': '$precio' } }
+        ]
+    )
+
+    products_ranking = []
+    for record in cursor:
+        products_ranking.append(record)
+
+    connection.close()
+
+    return template('agg2.tpl', products_ranking=products_ranking)
 
 
 @get('/age_range')
