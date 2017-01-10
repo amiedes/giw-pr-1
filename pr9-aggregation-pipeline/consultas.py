@@ -6,6 +6,7 @@
 
 from bottle import *
 from pymongo import *
+from bson.son import SON
 
 @get('/top_countries')
 # http://localhost:8080/top_countries?n=3
@@ -63,7 +64,31 @@ def agg2():
 @get('/age_range')
 # http://localhost:8080/age_range?min=80
 def agg3():
-    pass
+
+    connection = MongoClient('localhost', 27017)
+    db = connection.giw
+
+    min_usrs = request.query['min']
+
+    cursor = db['usuarios'].aggregate(
+        [
+            { '$group': { '_id': '$pais', 'count': { '$sum': 1 }, 'edad_min': { '$min': '$edad' }, 'edad_max': { '$max': '$edad' } } },
+            { '$project': { '_id': 0, 'pais': '$_id', 'num_usuarios': '$count', 'rango_edades': { '$subtract': [ '$edad_max', '$edad_min' ] } } },
+            { '$match': { 'num_usuarios': { '$gt': int(min_usrs) } } },
+            { '$sort': SON(
+                            [ ('rango_edades', -1), ('pais', 1) ]
+                          )
+            }
+        ]
+    )
+
+    countries = []
+    for record in cursor:
+        countries.append(record)
+
+    connection.close()
+
+    return template('agg3.tpl', countries=countries)
 
 
 @get('/avg_lines')
