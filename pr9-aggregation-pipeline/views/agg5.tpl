@@ -17,7 +17,7 @@
         % for record in countries:
           <tr>
             <td>{{record['_id']}}</td>
-            <td>{{record['total_euros']}}</td>
+            <td>{{record['total']}}</td>
           </tr>
         % end
       </tbody>
