@@ -46,7 +46,7 @@ def agg2():
     cursor = db['pedidos'].aggregate(
         [
             { '$unwind': '$lineas' },
-            { '$match': { "lineas.precio": { '$gt': float(min_price) } } },
+            { '$match': { "lineas.precio": { '$gte': float(min_price) } } },
             { '$group': { '_id': '$lineas.nombre', 'count': { '$sum': 1 }, 'precio': { '$first': '$lineas.precio' } } },
             { '$project': { '_id': 0, 'nombre_producto': '$_id', 'num_ventas': '$count', 'precio_unitario': '$precio' } }
         ]
@@ -100,8 +100,29 @@ def agg4():
 @get('/total_country')
 # http://localhost:8080/total_country?c=Alemania
 def agg5():
-    pass
+    connection = MongoClient('localhost', 27017)
+    db = connection.giw
 
+    country = request.query['c']
+    cursor = db['usuarios'].aggregate([
+         { '$lookup':{
+              'from': 'pedidos',
+              'localField': '_id',
+              'foreignField' : 'cliente',
+              'as' : "pedidos"
+         }},
+         { '$match': {'pais': str(country)}},
+         #{ '$unwind': '$pedidos.lineas'},
+         { '$group': {'_id': '$pais', 'total_euros': {'$sum': '$pedidos.total'}}}
+    ])
+    
+    countries = []
+    for record in cursor:
+        countries.append(record)
+
+    connection.close()
+    
+    return template('agg5.tpl', countries=countries)
 
 if __name__ == "__main__":
     # No cambiar host ni port ni debug
