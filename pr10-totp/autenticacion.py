@@ -62,7 +62,24 @@ def change_password():
 
 @post('/login')
 def login():
-    pass
+    try:
+        connect('giw')
+
+        nickname = request.forms.get('nickname')
+        password = request.forms.get('password')
+
+        user = User.check_password(nickname, password)
+
+        message = 'Bienvenido ' + user.name
+
+    except InvalidNickname:
+        message = 'The user does not exist'
+    except PasswordMatchError:
+        message = 'Passwords do not match'
+    except:
+        message = 'An error occurred while performing the requested action'
+    finally:
+        return template('signup.tpl', message=message)
 
 
 ##############
