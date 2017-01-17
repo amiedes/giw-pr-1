@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import hashlib
 from mongoengine import *
-from lib.salt_creator import *
+from lib.salt import *
 
 class PasswordMatchError(Exception):
     pass
@@ -28,9 +27,7 @@ class User(Document):
     def salt_and_save(params={}):
 
         salt = SaltCreator.create()
-
-        pwd_with_salt = (params['password'] + salt).encode('utf-8')
-        encrypted_password = hashlib.sha512(pwd_with_salt).hexdigest()
+        encrypted_password = PasswordEncrypter.encrypt(params['password'], salt)
 
         user = User(
             nickname = params['nickname'],
@@ -52,8 +49,7 @@ class User(Document):
 
         user = query_set[0]
 
-        given_pwd_with_salt = (password + user.salt).encode('utf-8')
-        given_encrypted_pwd = hashlib.sha512(given_pwd_with_salt).hexdigest()
+        given_encrypted_pwd = PasswordEncrypter.encrypt(password, user.salt)
 
         if (user.encrypted_password != given_encrypted_pwd):
             raise PasswordMatchError('Contraseña incorrecta')

@@ -8,6 +8,7 @@
 from bottle import *
 from mongoengine import *
 from models.user import *
+from lib.salt import *
 
 ##############
 # APARTADO 1 #
@@ -57,8 +58,33 @@ def signup():
 
 @post('/change_password')
 def change_password():
-    pass
+    try:
+        connect('giw')
 
+        nickname = request.forms.get('nickname')
+        old_password = request.forms.get('old_password')
+        new_password = request.forms.get('new_password')
+
+        user = User.check_password(nickname, old_password)
+
+        salt = SaltCreator.create()
+        encrypted_password = PasswordEncrypter.encrypt(new_password, salt)
+
+        user.salt = salt
+        user.encrypted_password = encrypted_password
+
+        user.save()
+
+        message = 'La contraseña del usuario ' + user.name + ' ha sido modificada.'
+
+    except InvalidNickname:
+        message = 'The user does not exist'
+    except PasswordMatchError:
+        message = 'Passwords do not match'
+    except:
+        message = 'An error occurred while performing the requested action'
+    finally:
+        return template('signup.tpl', message=message)
 
 @post('/login')
 def login():

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import random
+import hashlib
 
 class SaltCreator():
 
@@ -23,4 +24,10 @@ class SaltCreator():
 
         return salt_string
 
-print(SaltCreator.create())
+class PasswordEncrypter():
+
+    def encrypt(password, salt):
+
+        salted_password = (password + salt).encode('utf-8')
+
+        return hashlib.sha512(salted_password).hexdigest()
