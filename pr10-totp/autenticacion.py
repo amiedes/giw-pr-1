@@ -37,15 +37,13 @@ def signup():
             message = 'Las contraseñas no coinciden'
             raise Error()
 
-        user = User(
-            nickname = nickname,
-            name = request.forms.get('name'),
-            country = request.forms.get('country'),
-            email = request.forms.get('email'),
-            password = password
-        )
-
-        user.save()
+        user = User.salt_and_save({
+            'nickname': nickname,
+            'name': request.forms.get('name'),
+            'country': request.forms.get('country'),
+            'email': request.forms.get('email'),
+            'password': password
+        })
 
         message = 'Bienvenido usuario ' + user.name
 
