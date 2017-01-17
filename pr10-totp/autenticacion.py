@@ -31,12 +31,10 @@ def signup():
         password2 = request.forms.get('password2')
 
         if len(User.objects(nickname=nickname)) != 0:
-            message = 'El nickname no está disponible'
-            raise Error()
+            raise InvalidNickname()
 
         if (password != password2):
-            message = 'Las contraseñas no coinciden'
-            raise Error()
+            raise PasswordMatchError()
 
         user = User.salt_and_save({
             'nickname': nickname,
@@ -46,14 +44,18 @@ def signup():
             'password': password
         })
 
-        message = 'Bienvenido usuario ' + user.name
+        message = 'Bienvenido usuario ' + user.name + '.'
 
-    except ValidationError as error:
+    except InvalidNickname:
+        message = 'El alias de usuario ya existe.'
+    except PasswordMatchError:
+        message = 'Las contraseñas no coinciden.'
+    except ValidationError:
         message = 'Validation error prevented this record from being saved into the database.'
     except:
         message = 'An error occurred while performing the requested action'
     finally:
-        return template('signup.tpl', message=message)
+        return template('template.tpl', message=message)
 
 
 @post('/change_password')
@@ -78,13 +80,13 @@ def change_password():
         message = 'La contraseña del usuario ' + user.name + ' ha sido modificada.'
 
     except InvalidNickname:
-        message = 'The user does not exist'
+        message = 'Usuario o contraseña incorrectos.'
     except PasswordMatchError:
-        message = 'Passwords do not match'
+        message = 'Usuario o contraseña incorrectos.'
     except:
         message = 'An error occurred while performing the requested action'
     finally:
-        return template('signup.tpl', message=message)
+        return template('template.tpl', message=message)
 
 @post('/login')
 def login():
@@ -99,13 +101,13 @@ def login():
         message = 'Bienvenido ' + user.name
 
     except InvalidNickname:
-        message = 'The user does not exist'
+        message = 'Usuario o contraseña incorrectos.'
     except PasswordMatchError:
-        message = 'Passwords do not match'
+        message = 'Usuario o contraseña incorrectos.'
     except:
         message = 'An error occurred while performing the requested action'
     finally:
-        return template('signup.tpl', message=message)
+        return template('template.tpl', message=message)
 
 
 ##############
