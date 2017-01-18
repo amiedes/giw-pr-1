@@ -23,6 +23,8 @@ class InvalidNickname(Exception):
 
 class User(Document):
 
+    meta = {'collection': 'users'}
+
     nickname            = StringField(primary_key=True)
     name                = StringField(required=True)
     country             = StringField(required=True)

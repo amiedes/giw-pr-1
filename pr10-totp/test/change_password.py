@@ -19,7 +19,7 @@ from pymongo import MongoClient
 # Drop user collection
 client = MongoClient()
 db = client.giw
-db.user.delete_many({})
+db.users.delete_many({})
 client.close()
 
 # Create new amiedes user
