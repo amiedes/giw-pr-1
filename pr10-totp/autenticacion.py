@@ -1,9 +1,16 @@
 # -*- coding: utf-8 -*-
 
-#
-# CABECERA AQUI
-#
+"""
+Autores: Daniel Reyes, Ania Pietrzak, Alberto Miedes
+Asignatura: Gestión de Información en la Web (GIW) - Práctica 10 - Grupo 1
 
+Daniel Reyes, Ania Pietrzak y Alberto Miedes declaramos que esta solución es
+fruto exclusivamente de nuestro trabajo personal. No hemos sido ayudados por
+ninguna otra persona ni hemos obtenido la solución de fuentes externas, y
+tampoco hemos compartido nuestra solución con nadie. Declaramos además que no
+hemos realizado de manera deshonesta ninguna otra actividad que pueda mejorar
+nuestros resultados ni perjudicar los resultados de los demás.
+"""
 
 from bottle import *
 from mongoengine import *
@@ -146,12 +153,6 @@ def signup_totp():
 
         if (password != password2):
             raise PasswordMatchError()
-
-        # En otro caso insertará al usuario en la colección users y devolverá una
-        # página web con el código QR para configurar Google Authenticator. Esta
-        # página web contendrá también el nombre de usuario y la semilla generada
-        # por si el usuario quiere configurar Google Authenticator manualmente o
-        # utilizar otra aplicación TOTP.
 
         secret = Totp.gen_secret()
         gauth_url = Totp.gen_gauth_url('GIW_grupo1', nickname, secret)
