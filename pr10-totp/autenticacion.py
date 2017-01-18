@@ -22,10 +22,12 @@ from lib.totp import *
 # APARTADO 1 #
 ##############
 
-#
-# Explicación detallada del mecanismo escogido para el almacenamiento de c
-# contraseñas, explicando razonadamente por qué es seguro
-#
+# Las contraseñas se guardan encriptadas en la base de datos, de modo que aunque
+# hubiese una filtración de información, no sería posible (teóricamente) recuperar
+# las contraseñas en texto plano.
+# A la contraseña en texto plano elegida por cada usuario se añade una sal generada
+# aleatoriamente antes de encriptarla, de modo que aunque existan dos usuarios
+# con la misma contraseña, el hash resultante será diferente.
 
 
 @post('/signup')
