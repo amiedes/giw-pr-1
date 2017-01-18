@@ -11,17 +11,13 @@ class InvalidNickname(Exception):
 
 class User(Document):
 
-    nickname = StringField(primary_key=True)
-
-    name = StringField(required=True)
-
-    country = StringField(required=True)
-
-    email = StringField(required=True)
-
-    encrypted_password = StringField(required=True)
-
-    salt = StringField()
+    nickname            = StringField(primary_key=True)
+    name                = StringField(required=True)
+    country             = StringField(required=True)
+    email               = StringField(required=True)
+    encrypted_password  = StringField(required=True)
+    salt                = StringField()
+    totp_salt           = StringField()
 
 
     def salt_and_save(params={}):
@@ -39,6 +35,23 @@ class User(Document):
         )
 
         return user.save()
+
+    def totp_save(params={}):
+
+        salt = SaltCreator.create()
+        encrypted_password = PasswordEncrypter.encrypt(params['password'], salt)
+
+        user = User(
+            nickname = params['nickname'],
+            name = params['name'],
+            country = params['country'],
+            email = params['email'],
+            encrypted_password = encrypted_password,
+            totp_salt = params['totp_salt']
+        )
+
+        return user.save()
+
 
     def check_password(nickname, password):
 

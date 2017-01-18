@@ -9,6 +9,7 @@ from bottle import *
 from mongoengine import *
 from models.user import *
 from lib.salt import *
+from lib.totp import *
 
 ##############
 # APARTADO 1 #
@@ -116,27 +117,67 @@ def login():
 
 
 def gen_secret():
-    # >>> gen_secret()
-    # '7ZVVBSKR22ATNU26'
-    pass
+
+    return Totp.gen_secret()
 
 
 def gen_gauth_url(app_name, username, secret):
-    # >>> gen_gauth_url( 'GIW_grupoX', 'pepe_lopez', 'JBSWY3DPEHPK3PXP')
-    # 'otpauth://totp/pepe_lopez?secret=JBSWY3DPEHPK3PXP&issuer=GIW_grupoX
-    pass
+
+    return Totp.gen_gauth_url(app_name, username, secret)
 
 
 def gen_qrcode_url(gauth_url):
-    # >>> gen_qrcode_url('otpauth://totp/pepe_lopez?secret=JBSWY3DPEHPK3PXP&issuer=GIW_grupoX')
-    # 'http://api.qrserver.com/v1/create-qr-code/?data=otpauth%3A%2F%2Ftotp%2Fpepe_lopez%3Fsecret%3DJBSWY3DPEHPK3PXP%26issuer%3DGIW_grupoX'
-    pass
 
+    return Totp.gen_qrcode_url(gauth_url)
 
 
 @post('/signup_totp')
 def signup_totp():
-    pass
+
+    try:
+        connect('giw')
+
+        nickname = request.forms.get('nickname')
+        password = request.forms.get('password')
+        password2 = request.forms.get('password2')
+
+        if len(User.objects(nickname=nickname)) != 0:
+            raise InvalidNickname()
+
+        if (password != password2):
+            raise PasswordMatchError()
+
+        # En otro caso insertará al usuario en la colección users y devolverá una
+        # página web con el código QR para configurar Google Authenticator. Esta
+        # página web contendrá también el nombre de usuario y la semilla generada
+        # por si el usuario quiere configurar Google Authenticator manualmente o
+        # utilizar otra aplicación TOTP.
+
+        secret = Totp.gen_secret()
+        gauth_url = Totp.gen_gauth_url('GIW_grupo1', nickname, secret)
+        qrcode_url = Totp.gen_qrcode_url(gauth_url)
+
+        user = User.totp_save({
+            'nickname': nickname,
+            'name': request.forms.get('name'),
+            'country': request.forms.get('country'),
+            'email': request.forms.get('email'),
+            'password': password,
+            'totp_salt': secret
+        })
+
+        return template('totp.tpl', qrcode_url=qrcode_url, username=user.name, secret=user.totp_salt)
+
+    except InvalidNickname:
+        message = 'El alias de usuario ya existe.'
+    except PasswordMatchError:
+        message = 'Las contraseñas no coinciden.'
+    except ValidationError:
+        message = 'Validation error prevented this record from being saved into the database.'
+    except:
+        message = 'An error occurred while performing the requested action'
+    finally:
+        return template('template.tpl', message=message)
 
 
 @post('/login_totp')
